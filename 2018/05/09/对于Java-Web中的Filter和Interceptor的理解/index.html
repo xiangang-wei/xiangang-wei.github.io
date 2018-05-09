@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="写在前面：因为部门项目中有用户登录验证方面的需求，故而学习了一下相关的验证技术，本文仅是作者个人学习的心得，由于水平有限，如有错误之处还请指出、见谅。 背景 在设计web应用的时候，用户登录/注册是必不可少的功能，对用户登录信息进行验证的方法也是多种多样，大致可以认为如下模式：前端验证+后台验证。根据笔者的经验，一般会在前端进行一些例如是否输入数据、输入的数据的格式是否正确等一系列的验证，在后台会">
+<meta name="keywords" content="Java,Spring,Spring MVC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对于Java Web中的Filter和Interceptor的理解">
+<meta property="og:url" content="http://yoursite.com/2018/05/09/对于Java-Web中的Filter和Interceptor的理解/index.html">
+<meta property="og:site_name" content="科学的超强电磁炮">
+<meta property="og:description" content="写在前面：因为部门项目中有用户登录验证方面的需求，故而学习了一下相关的验证技术，本文仅是作者个人学习的心得，由于水平有限，如有错误之处还请指出、见谅。 背景 在设计web应用的时候，用户登录/注册是必不可少的功能，对用户登录信息进行验证的方法也是多种多样，大致可以认为如下模式：前端验证+后台验证。根据笔者的经验，一般会在前端进行一些例如是否输入数据、输入的数据的格式是否正确等一系列的验证，在后台会">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-25006651edc94994.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-26393c9875a892a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-05-09T14:53:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对于Java Web中的Filter和Interceptor的理解">
+<meta name="twitter:description" content="写在前面：因为部门项目中有用户登录验证方面的需求，故而学习了一下相关的验证技术，本文仅是作者个人学习的心得，由于水平有限，如有错误之处还请指出、见谅。 背景 在设计web应用的时候，用户登录/注册是必不可少的功能，对用户登录信息进行验证的方法也是多种多样，大致可以认为如下模式：前端验证+后台验证。根据笔者的经验，一般会在前端进行一些例如是否输入数据、输入的数据的格式是否正确等一系列的验证，在后台会">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2609728-25006651edc94994.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="科学的超强电磁炮" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/09/对于Java-Web中的Filter和Interceptor的理解/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>对于Java Web中的Filter和Interceptor的理解 | 科学的超强电磁炮</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">科学的超强电磁炮</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">点滴积累，聚沙成塔</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">18</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">10</span></a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/对于Java-Web中的Filter和Interceptor的理解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xiangang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://upload.wikimedia.org/wikipedia/zh/6/60/%E5%BE%A1%E5%9D%82%E7%BE%8E%E7%90%B4.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="科学的超强电磁炮">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">对于Java Web中的Filter和Interceptor的理解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-09 22:48:08 / 修改时间：22:53:10" itemprop="dateCreated datePublished" datetime="2018-05-09T22:48:08+08:00">2018-05-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/09/对于Java-Web中的Filter和Interceptor的理解/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/05/09/对于Java-Web中的Filter和Interceptor的理解/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/05/09/对于Java-Web中的Filter和Interceptor的理解/" class="leancloud_visitors" data-flag-title="对于Java Web中的Filter和Interceptor的理解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><em>写在前面：因为部门项目中有用户登录验证方面的需求，故而学习了一下相关的验证技术，本文仅是作者个人学习的心得，由于水平有限，如有错误之处还请指出、见谅。</em></p>
+<h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p> 在设计web应用的时候，用户登录/注册是必不可少的功能，对用户登录信息进行验证的方法也是多种多样，大致可以认为如下模式：前端验证+后台验证。根据笔者的经验，一般会在前端进行一些例如是否输入数据、输入的数据的格式是否正确等一系列的验证，在后台会查询数据库进行验证。<br>一般在后台进行验证的时候，都会选择使用Servlet的Filter作为拦截器，本文主要介绍Servlet的Filter，然后再拿它跟Spring MVC的HnadlerInterceptor进行对比。</p>
+<h4 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h4><h5 id="什么是Filter"><a href="#什么是Filter" class="headerlink" title="什么是Filter"></a>什么是Filter</h5><p>Servlet作为Java Web的基础，它的一个比较核心也被广泛应用的功能就是Filter，又叫拦截器。顾名思义，拦截器就是起到拦截作用的。一般情况下，用户从客户端发出请求到服务器后，整个的流程是：</p>
+<blockquote>
+<p>HttpRequest —-&gt; Filter —-&gt; Servlet —-&gt; Controller/Action/… —-&gt; Filter —-&gt; HttpResponse</p>
+</blockquote>
+<p>根据上面的流程可以看出，Filter的作用就是在用户请求到达Servlet之前，进行拦截。在拦截到用户的请求后，我们可以实现一些自定义的业务逻辑，例如之前说到的对用户登录信息进行验证。Filter还可以在服务器响应到达客户端之前对响应的数据进行修改，本文主要介绍第一个功能。</p>
+<h5 id="Filter的工作原理"><a href="#Filter的工作原理" class="headerlink" title="Filter的工作原理"></a>Filter的工作原理</h5><p>Filter跟Servlet一样都是由服务器负责创建和销毁的，在web应用程序启动时，服务器会根据应用程序的web.xml文件中的配置信息调用<code>public void init(FilterConfig filterConfig) throws ServletException</code>方法来初始化Filter，在web应用程序被移除或者是服务器关闭时，会调用<code>public void destroy()</code>来销毁Filter。在一个应用程序中一个Filter只会被创建和销毁一次，在进行完初始化之后，Filter中声明了<code>public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException</code>方法，用来实现一些需要在拦截完成之后的业务逻辑。<br>注意到上面的<code>doFilter()</code>方法的参数中，有<code>chain</code>这个参数，它是传递过来的拦截链对象，里面包含了用户定义的一系列的拦截器，这些拦截器根据其在web.xml中定义的顺序依次被执行。当用户的信息验证通过或者当前拦截器不起作用时，我们可以执行<code>chain.doFilter()</code>方法来跳过当前拦截器来执行拦截器链中的下一个拦截器。</p>
+<h5 id="自己实现Filter"><a href="#自己实现Filter" class="headerlink" title="自己实现Filter"></a>自己实现Filter</h5><p>自己实现Filter时，需要继承接口<code>javax.servlet.Filter</code>并且实现相关的方法。</p>
+<h6 id="所用到的工具："><a href="#所用到的工具：" class="headerlink" title="所用到的工具："></a>所用到的工具：</h6><p> IDE: IntelliJ IDEA<br> 构建工具：gradle<br> 本地服务器：Tomcat</p>
+<h6 id="具体代码"><a href="#具体代码" class="headerlink" title="具体代码"></a>具体代码</h6><p><code>build.gradle</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">group &apos;xiangang.wei&apos;</span><br><span class="line">version &apos;1.0-SNAPSHOT&apos;</span><br><span class="line"></span><br><span class="line">apply plugin: &apos;java&apos;</span><br><span class="line">apply plugin: &apos;war&apos;</span><br><span class="line"></span><br><span class="line">sourceCompatibility = 1.8</span><br><span class="line"></span><br><span class="line">repositories &#123;   </span><br><span class="line">    jcenter()    </span><br><span class="line">    mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line">dependencies &#123;   </span><br><span class="line">    testCompile group: &apos;junit&apos;, name: &apos;junit&apos;, version: &apos;4.11&apos;    </span><br><span class="line">    // servlet-api    </span><br><span class="line">    compile group: &apos;javax.servlet&apos;, name: &apos;servlet-api&apos;, version: &apos;2.5&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>web.xml</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;web-app xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot;               </span><br><span class="line">xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;           </span><br><span class="line">xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee        </span><br><span class="line">                    http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot; version=&quot;3.0&quot;&gt;    </span><br><span class="line">&lt;filter&gt;        </span><br><span class="line">  &lt;filter-name&gt;loginValidation&lt;/filter-name&gt;      </span><br><span class="line">  &lt;filter-class&gt;filter.LoginValidation&lt;/filter-class&gt;</span><br><span class="line">  &lt;init-param&gt;            </span><br><span class="line">    &lt;param-name&gt;redirectPath&lt;/param-name&gt;            </span><br><span class="line">    &lt;param-value&gt;/index.jsp&lt;/param-value&gt;        </span><br><span class="line">  &lt;/init-param&gt;        </span><br><span class="line">  &lt;init-param&gt;            </span><br><span class="line">    &lt;param-name&gt;disableloginValidation&lt;/param-name&gt;            </span><br><span class="line">    &lt;param-value&gt;N&lt;/param-value&gt;        </span><br><span class="line">  &lt;/init-param&gt;        </span><br><span class="line">  &lt;init-param&gt;            </span><br><span class="line">    &lt;param-name&gt;logonString&lt;/param-name&gt;            </span><br><span class="line">    &lt;param-value&gt;/index.jsp&lt;/param-value&gt;        </span><br><span class="line">  &lt;/init-param&gt;    </span><br><span class="line">  &lt;/filter&gt;    </span><br><span class="line">  &lt;filter-mapping&gt;        </span><br><span class="line">    &lt;filter-name&gt;loginValidation&lt;/filter-name&gt;        </span><br><span class="line">    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;   </span><br><span class="line">   &lt;/filter-mapping&gt;</span><br><span class="line">&lt;/web-app&gt;</span><br></pre></td></tr></table></figure></p>
+<p>web.xml中<init-param>标签被用来配置Filter的初始化时使用的参数，其中<param-name>标签表示参数的名字，可以是自己定义的任何名字，<param-value>标签表示对应的初始化参数的值。上面的初始化参数中，<code>redirectPath</code>定义了当验证不成功时页面重定向的的路径，<code>logonString</code>定义了拦截器拦截的指定URL。<code>&lt;filter-mapping&gt;</code>标签定义了拦截器的拦截模式，在<code>&lt;url-pattern&gt;</code>标签定义了拦截模式，上面的<code>/*</code>表示拦截所有。它和之前定义的指定拦截的URL标签结合起来使用。</param-value></param-name></init-param></p>
+<p> <code>index.jsp</code><br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--  </span><br><span class="line">Created by IntelliJ IDEA.  </span><br><span class="line">User: xiangang  </span><br><span class="line">Date: 2016/11/21  </span><br><span class="line">Time: 下午3:42  </span><br><span class="line">To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;    </span><br><span class="line">    &lt;title&gt;用户登陆界面&lt;/title&gt;   </span><br><span class="line">    &lt;style type=&quot;text/css&quot;&gt;        </span><br><span class="line">      div&#123;            </span><br><span class="line">              margin: auto;            </span><br><span class="line">              border: gray 1px solid;            </span><br><span class="line">              width: 70%;        </span><br><span class="line">          &#125;    </span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">      &lt;div&gt;    </span><br><span class="line">        &lt;form action=&quot;success.jsp&quot; method=&quot;post&quot;&gt;       </span><br><span class="line">         &lt;table&gt;            </span><br><span class="line">          &lt;tr&gt;                </span><br><span class="line">            &lt;td&gt;用户名：&lt;input type=&quot;text&quot; name=&quot;name&quot; /&gt;&lt;/td&gt;            </span><br><span class="line">          &lt;/tr&gt;            </span><br><span class="line">          &lt;tr&gt;                </span><br><span class="line">            &lt;td&gt;密   码：&lt;input type=&quot;password&quot; name=&quot;password&quot; /&gt;&lt;/td&gt;            </span><br><span class="line">          &lt;/tr&gt;            </span><br><span class="line">          &lt;tr&gt;                </span><br><span class="line">            &lt;td&gt;&lt;input type=&quot;submit&quot; value=&quot;提交&quot; /&gt;&lt;/td&gt;                </span><br><span class="line">            &lt;td&gt;&lt;input type=&quot;reset&quot; value=&quot;重置&quot; /&gt;&lt;/td&gt;            </span><br><span class="line">          &lt;/tr&gt;        </span><br><span class="line">        &lt;/table&gt;    </span><br><span class="line">      &lt;/form&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>Filter对应的实现类：<br><code>LoginValidation.java</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">package filter;</span><br><span class="line">import javax.servlet.*;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">/** * </span><br><span class="line">Created by xiangang on 2016/11/21. </span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">public class LoginValidation implements Filter&#123;    </span><br><span class="line">public FilterConfig config;    </span><br><span class="line">public static boolean isContains(String url, String[] regx)&#123;        </span><br><span class="line">boolean flag = false;        </span><br><span class="line">for (int i = 0;i&lt;regx.length;i++)&#123;            </span><br><span class="line">  if (url.indexOf(regx[i])!=-1)&#123;                </span><br><span class="line">    flag = true;                </span><br><span class="line">    return flag;            </span><br><span class="line">  &#125;        </span><br><span class="line">&#125;        </span><br><span class="line">  return flag;    </span><br><span class="line">&#125;    </span><br><span class="line"></span><br><span class="line">@Override    </span><br><span class="line">public void init(FilterConfig filterConfig) throws ServletException &#123;        </span><br><span class="line">  this.config = filterConfig;    </span><br><span class="line">&#125;    </span><br><span class="line"></span><br><span class="line">@Override    </span><br><span class="line">public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException &#123;        </span><br><span class="line">  HttpServletRequest httpServletRequest= (HttpServletRequest)request;        </span><br><span class="line">  HttpServletResponse httpServletResponse = (HttpServletResponse)response;        </span><br><span class="line">  String name = httpServletRequest.getParameter(&quot;name&quot;);        </span><br><span class="line">  String password = httpServletRequest.getParameter(&quot;password&quot;);        </span><br><span class="line">  String redirectPath=httpServletRequest.getContextPath()+config.getInitParameter(&quot;redirectPath&quot;);        </span><br><span class="line">  String logonString = config.getInitParameter(&quot;logonString&quot;);</span><br><span class="line">  String[] logonList = logonString.split(&quot;;&quot;);    </span><br><span class="line">   </span><br><span class="line">  if (isContains(httpServletRequest.getRequestURI(),logonList))&#123;            </span><br><span class="line">    chain.doFilter(request,response);            </span><br><span class="line">    return;        </span><br><span class="line">  &#125;</span><br><span class="line">if (&quot;Y&quot;.equals(config.getInitParameter(&quot;disableloginValidation&quot;)))&#123;            </span><br><span class="line">    chain.doFilter(request,response); </span><br><span class="line">    return;        </span><br><span class="line">  &#125;</span><br><span class="line">if (&quot;root&quot;.equals(name) &amp;&amp; &quot;admin&quot;.equals(password))&#123;            </span><br><span class="line">    chain.doFilter(request,response);</span><br><span class="line">    return;</span><br><span class="line">  &#125;else&#123; </span><br><span class="line">    httpServletResponse.sendRedirect(redirectPath); </span><br><span class="line">    return; </span><br><span class="line">   &#125; </span><br><span class="line">  &#125;   </span><br><span class="line"> </span><br><span class="line">@Override    public void destroy() &#123;</span><br><span class="line">  this.config = null;    </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>登录成功之后的页面：<br> <code>success.jsp</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--  </span><br><span class="line">Created by IntelliJ IDEA.  </span><br><span class="line">User: xiangang  </span><br><span class="line">Date: 2016/11/21  </span><br><span class="line">Time: 下午3:56  </span><br><span class="line">To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;    </span><br><span class="line">&lt;title&gt;登录成功！&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">欢迎！</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>配置好Tomcat之后，开启应用程序：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2609728-25006651edc94994.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="登陆界面"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2609728-26393c9875a892a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="登录成功界面"></p>
+<p>登录失败时不会跳转，仍然会停留在原页面。</p>
+<h4 id="Interceptor"><a href="#Interceptor" class="headerlink" title="Interceptor"></a>Interceptor</h4><p>之前提到的Filter是Servlet层面的拦截器，在许多的Java Web框架中，都实现了自己的拦截器Interceptor。例如Struts2中的Interceptor、Spring MVC中的HandlerInterceptor等。相比于Filter,框架中的Interceptor的产生作用的时间和位置不一样，下面描述了应用了Spring MVC中的HandlerInterceptor的web请求流程：</p>
+<blockquote>
+<p>HttpRequest —-&gt; DispactherServlet —-&gt; HandlerInterceptor —-&gt;Controller—-&gt; HandlerInterceptor —-&gt; HttpResponse</p>
+</blockquote>
+<p>两者的主要区别在于Filter起作用的时机是在请求到达Servlet之前，二HandlerInterceptor其作用的时机是在DispactherServlet接收到用户请求完成请求到相应的Handler映射之后。虽然都先于在具体的业务逻辑执行，但是还是存在一些差异。Filter面对的是所有的请求，而HandlerInterceptor是面对具体的Controller。Filter总是先于HandlerInterceptor发挥作用，在Filter中甚至可以中断请求，从而使它无法到达相应的Servlet。而且两者的配置也不一样，Filter是在web.xml中进行配置，HandlerInterceptor是在具体的applicationContext.xml中进行配置。</p>
+<h5 id="HandlerInterceptor的工作原理"><a href="#HandlerInterceptor的工作原理" class="headerlink" title="HandlerInterceptor的工作原理"></a>HandlerInterceptor的工作原理</h5><p>分析源码，发现HandlerInterceptor接口中声明了如下几个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">public interface HandlerInterceptor &#123;  </span><br><span class="line"></span><br><span class="line">/**    </span><br><span class="line">* Intercept the execution of a handler. Called after HandlerMapping determined</span><br><span class="line">* an appropriate handler object, but before HandlerAdapter invokes the handler.    </span><br><span class="line">* &lt;p&gt;DispatcherServlet processes a handler in an execution chain, consisting    </span><br><span class="line">* of any number of interceptors, with the handler itself at the end.    </span><br><span class="line">* With this method, each interceptor can decide to abort the execution chain,    </span><br><span class="line">* typically sending a HTTP error or writing a custom response.    </span><br><span class="line">* &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; special considerations apply for asynchronous    </span><br><span class="line">* request processing. For more details see    </span><br><span class="line">* &#123;@link org.springframework.web.servlet.AsyncHandlerInterceptor&#125;.    </span><br><span class="line">* @param request current HTTP request    </span><br><span class="line">* @param response current HTTP response    </span><br><span class="line">* @param handler chosen handler to execute, for type and/or instance evaluation    </span><br><span class="line">* @return &#123;@code true&#125; if the execution chain should proceed with the    </span><br><span class="line">* next interceptor or the handler itself. Else, DispatcherServlet assumes    </span><br><span class="line">* that this interceptor has already dealt with the response itself.    </span><br><span class="line">* @throws Exception in case of errors    </span><br><span class="line">*/   </span><br><span class="line"></span><br><span class="line">boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception;  </span><br><span class="line"> </span><br><span class="line">/**   </span><br><span class="line">* Intercept the execution of a handler. Called after HandlerAdapter actually    </span><br><span class="line">* invoked the handler, but before the DispatcherServlet renders the view.    </span><br><span class="line">* Can expose additional model objects to the view via the given ModelAndView.    </span><br><span class="line">* &lt;p&gt;DispatcherServlet processes a handler in an execution chain, consisting    </span><br><span class="line">* of any number of interceptors, with the handler itself at the end.    </span><br><span class="line">* With this method, each interceptor can post-process an execution,    </span><br><span class="line">* getting applied in inverse order of the execution chain.    </span><br><span class="line">* &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; special considerations apply for asynchronous    * request processing. For more details see    </span><br><span class="line">* &#123;@link org.springframework.web.servlet.AsyncHandlerInterceptor&#125;.    </span><br><span class="line">* @param request current HTTP request    </span><br><span class="line">* @param response current HTTP response    </span><br><span class="line">* @param handler handler (or &#123;@link HandlerMethod&#125;) that started asynchronous    </span><br><span class="line">* execution, for type and/or instance examination    </span><br><span class="line">* @param modelAndView the &#123;@code ModelAndView&#125; that the handler returned    </span><br><span class="line">* (can also be &#123;@code null&#125;)    </span><br><span class="line">* @throws Exception in case of errors    </span><br><span class="line">*/   </span><br><span class="line"></span><br><span class="line">void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception;   </span><br><span class="line"></span><br><span class="line">/**    </span><br><span class="line">* Callback after completion of request processing, that is, after rendering    </span><br><span class="line">* the view. Will be called on any outcome of handler execution, thus allows    </span><br><span class="line">* for proper resource cleanup.   </span><br><span class="line">* &lt;p&gt;Note: Will only be called if this interceptor&apos;s &#123;@code preHandle&#125;    </span><br><span class="line">* method has successfully completed and returned &#123;@code true&#125;!    </span><br><span class="line">* &lt;p&gt;As with the &#123;@code postHandle&#125; method, the method will be invoked on each    </span><br><span class="line">* interceptor in the chain in reverse order, so the first interceptor will be    </span><br><span class="line">* the last to be invoked.    </span><br><span class="line">* &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; special considerations apply for asynchronous    </span><br><span class="line">* request processing. For more details see    </span><br><span class="line">* &#123;@link org.springframework.web.servlet.AsyncHandlerInterceptor&#125;.    </span><br><span class="line">* @param request current HTTP request    </span><br><span class="line">* @param response current HTTP response    </span><br><span class="line">* @param handler handler (or &#123;@link HandlerMethod&#125;) that started asynchronous    </span><br><span class="line">* execution, for type and/or instance examination    </span><br><span class="line">* @param ex exception thrown on handler execution, if any    </span><br><span class="line">* @throws Exception in case of errors    </span><br><span class="line">*/   </span><br><span class="line"></span><br><span class="line">void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这三个方法分别会在具体的HandlerController方法执行之前，执行成功之后，和执行完成之后被执行。</p>
+<h5 id="自己实现HandlerInterceptor"><a href="#自己实现HandlerInterceptor" class="headerlink" title="自己实现HandlerInterceptor"></a>自己实现HandlerInterceptor</h5><p>Spring MVC框架采用了适配器的开发模式，使用一个抽象的类<code>HandlerInterceptorAdapter</code>实现<code>HandlerInterceptor</code>接口，这样当我们需要自己实现HandlerInterceptor时，我们可以继承<code>HandlerInterceptorAdapter</code>这样我们就不用全部实现这三个方法，而可以选择性的实现自己需要的方法。</p>
+<h6 id="所用到的工具：-1"><a href="#所用到的工具：-1" class="headerlink" title="所用到的工具："></a>所用到的工具：</h6><p> IDE: IntelliJ IDEA<br> 构建工具：gradle<br> 本地服务器：Tomcat</p>
+<h6 id="具体的代码："><a href="#具体的代码：" class="headerlink" title="具体的代码："></a>具体的代码：</h6><p><code>build.gradle</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">group &apos;xiangang.wei&apos;</span><br><span class="line">version &apos;1.0-SNAPSHOT&apos;</span><br><span class="line">apply plugin: &apos;java&apos;</span><br><span class="line">apply plugin: &apos;war&apos;source</span><br><span class="line"></span><br><span class="line">Compatibility = 1.8</span><br><span class="line"></span><br><span class="line">repositories &#123;    </span><br><span class="line">jcenter()    </span><br><span class="line">mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;    </span><br><span class="line">testCompile group: &apos;junit&apos;, name: &apos;junit&apos;, version: &apos;4.11&apos;    </span><br><span class="line">// servlet-api    </span><br><span class="line">compile group: &apos;javax.servlet&apos;, name: &apos;servlet-api&apos;, version: &apos;2.5&apos;    </span><br><span class="line">//spring相关    </span><br><span class="line">compile group: &apos;org.springframework&apos;, name: &apos;spring-webmvc&apos;, version: &apos;4.3.3.RELEASE&apos;    </span><br><span class="line">compile group: &apos;org.springframework&apos;, name: &apos;spring-orm&apos;, version: &apos;4.3.3.RELEASE&apos;    </span><br><span class="line">compile group: &apos;org.springframework&apos;, name: &apos;spring-aspects&apos;, version: &apos;4.3.3.RELEASE&apos;    </span><br><span class="line">compile group: &apos;org.springframework.security&apos;, name: &apos;spring-security-config&apos;, version: &apos;3.2.0.RELEASE&apos;    </span><br><span class="line">compile group: &apos;org.springframework.security&apos;, name: &apos;spring-security-taglibs&apos;, version: &apos;3.2.0.RELEASE&apos;    </span><br><span class="line">compile &apos;org.springframework.security:spring-security-web:3.2.0.RELEASE&apos;    //hibernate相关    </span><br><span class="line">compile &apos;org.hibernate:hibernate-core:4.3.6.Final&apos;    </span><br><span class="line">//mysql    </span><br><span class="line">compile group: &apos;mysql&apos;, name: &apos;mysql-connector-java&apos;, version: &apos;5.1.39&apos;    </span><br><span class="line">//springData    </span><br><span class="line">compile group: &apos;org.springframework.data&apos;, name: &apos;spring-data-jpa&apos;, version: &apos;1.10.3.RELEASE&apos;    </span><br><span class="line">// https://mvnrepository.com/artifact/log4j/log4j日志    </span><br><span class="line">compile group: &apos;log4j&apos;, name: &apos;log4j&apos;, version: &apos;1.2.17&apos;   </span><br><span class="line">//json解析相关    </span><br><span class="line">compile group: &apos;com.fasterxml.jackson.core&apos;, name: &apos;jackson-databind&apos;, version: &apos;2.5.4&apos;    </span><br><span class="line">compile group: &apos;com.fasterxml.jackson.core&apos;, name: &apos;jackson-core&apos;, version: &apos;2.5.4&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>web.xml</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;web-app xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot;           </span><br><span class="line">xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;           </span><br><span class="line">xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee        </span><br><span class="line">http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot;           version=&quot;3.0&quot;&gt;    </span><br><span class="line">&lt;!--框架默认帮我们配置好了ApplicationContext的实现类(org.springframework.web.context.support.XmlWebApplicationContext),不需要自己手动配置--&gt;    </span><br><span class="line"></span><br><span class="line">&lt;!--配置ApplicationContext需要加载的配置文件--&gt;    </span><br><span class="line">&lt;context-param&gt;        </span><br><span class="line">&lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;       </span><br><span class="line">&lt;param-value&gt;classpath:databaseAccess.xml,classpath:service.xml&lt;/param-value&gt;    </span><br><span class="line">&lt;/context-param&gt;    </span><br><span class="line"></span><br><span class="line">&lt;!--ApplicationContext的加载和关闭--&gt;    </span><br><span class="line">&lt;listener&gt;        </span><br><span class="line">&lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;    </span><br><span class="line">&lt;/listener&gt;    </span><br><span class="line">&lt;!--配置字符过滤器,防止出现中文乱码--&gt;    </span><br><span class="line">&lt;filter&gt;        </span><br><span class="line">&lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;        </span><br><span class="line">&lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;        </span><br><span class="line">&lt;init-param&gt;            </span><br><span class="line">&lt;param-name&gt;encoding&lt;/param-name&gt;            </span><br><span class="line">&lt;param-value&gt;utf-8&lt;/param-value&gt;        </span><br><span class="line">&lt;/init-param&gt;    </span><br><span class="line">&lt;/filter&gt;    </span><br><span class="line">&lt;filter-mapping&gt;        </span><br><span class="line">&lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;        </span><br><span class="line">&lt;url-pattern&gt;/*&lt;/url-pattern&gt;    </span><br><span class="line">&lt;/filter-mapping&gt;    </span><br><span class="line"></span><br><span class="line">&lt;!--配置Spring MVC的前置控制器--&gt;    </span><br><span class="line">&lt;servlet&gt;        </span><br><span class="line">&lt;servlet-name&gt;dispatcherServlet&lt;/servlet-name&gt;        </span><br><span class="line">&lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;        </span><br><span class="line">&lt;init-param&gt;            </span><br><span class="line">&lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;            </span><br><span class="line">&lt;param-value&gt;classpath:dispatcherServlet.xml&lt;/param-value&gt;        </span><br><span class="line">&lt;/init-param&gt;        </span><br><span class="line">&lt;load-on-startup&gt;1&lt;/load-on-startup&gt;    </span><br><span class="line">&lt;/servlet&gt;    </span><br><span class="line">&lt;servlet-mapping&gt;        </span><br><span class="line">&lt;servlet-name&gt;dispatcherServlet&lt;/servlet-name&gt;        </span><br><span class="line">&lt;url-pattern&gt;/&lt;/url-pattern&gt;    </span><br><span class="line">&lt;/servlet-mapping&gt;</span><br><span class="line">&lt;/web-app&gt;</span><br></pre></td></tr></table></figure></p>
+<p>涉及到HandlerInterceptor的配置文件<code>dispatcherServlet.xml</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;       </span><br><span class="line">xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;       </span><br><span class="line">xmlns:context=&quot;http://www.springframework.org/schema/context&quot;       </span><br><span class="line">xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;       </span><br><span class="line">xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans       </span><br><span class="line">http://www.springframework.org/schema/beans/spring-beans.xsd       </span><br><span class="line">http://www.springframework.org/schema/context       </span><br><span class="line">http://www.springframework.org/schema/context/spring-context.xsd       </span><br><span class="line">http://www.springframework.org/schema/mvc       </span><br><span class="line">http://www.springframework.org/schema/mvc/spring-mvc.xsd&quot;&gt;    </span><br><span class="line"></span><br><span class="line">&lt;!--开启注解--&gt;    </span><br><span class="line">&lt;mvc:annotation-driven/&gt;    </span><br><span class="line"></span><br><span class="line">&lt;!--添加需要扫描的包--&gt;    </span><br><span class="line">&lt;context:component-scan base-package=&quot;ims&quot; use-default-filters=&quot;false&quot;&gt;        </span><br><span class="line">&lt;context:include-filter type=&quot;annotation&quot; expression=&quot;org.springframework.stereotype.Controller&quot;/&gt;    </span><br><span class="line">&lt;/context:component-scan&gt;    </span><br><span class="line"></span><br><span class="line">&lt;!--添加HandlerInterceptor--&gt;    </span><br><span class="line">&lt;mvc:interceptors&gt;        </span><br><span class="line">&lt;mvc:interceptor&gt;            </span><br><span class="line">&lt;mvc:mapping path=&quot;/user/**&quot;/&gt;            </span><br><span class="line">&lt;bean class=&quot;ims.handlerInterceptor.LoginInterceptor&quot;/&gt;        </span><br><span class="line">&lt;/mvc:interceptor&gt;        </span><br><span class="line">&lt;mvc:interceptor&gt;            </span><br><span class="line">&lt;mvc:mapping path=&quot;/register/**&quot;/&gt;            </span><br><span class="line">&lt;bean class=&quot;ims.handlerInterceptor.RegisterInterceptor&quot;/&gt;        </span><br><span class="line">&lt;/mvc:interceptor&gt;    </span><br><span class="line">&lt;/mvc:interceptors&gt;    </span><br><span class="line"></span><br><span class="line">&lt;!--添加试图解析器--&gt;    </span><br><span class="line">&lt;bean class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;        </span><br><span class="line">&lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/views/&quot;/&gt;        </span><br><span class="line">&lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot;/&gt;    </span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure></p>
+<p>配置HandlerInterceptor有两种方式，一种是如上面所示，这张方式配置的HandlerInterceptor可以指定具体的拦截路径，另外一种方式是直接在<code>&lt;mvc:interceptors&gt;</code>中使用<bean>标签进行配置：<code>&lt;bean class=&quot;ims.handlerInterceptor.LoginInterceptor&quot;/&gt;</code> 按照这种方式配置的HandlerInterceptor会对所有的路径进行拦截。</bean></p>
+<p>具体的Interceptor实现类：<br><code>LoginInterceptor.java</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">package ims.handlerInterceptor;</span><br><span class="line">import ims.service.UserService;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.stereotype.Controller;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line">import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import javax.servlet.http.HttpSession;</span><br><span class="line"></span><br><span class="line">/** </span><br><span class="line">* Created by xiangang on 16/11/17. </span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">public class LoginInterceptor extends HandlerInterceptorAdapter &#123;    </span><br><span class="line"></span><br><span class="line">@Autowired    </span><br><span class="line">private UserService userService;   </span><br><span class="line"> </span><br><span class="line">@Override    </span><br><span class="line">public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception &#123;        </span><br><span class="line">  boolean flag = true;        </span><br><span class="line">  HttpSession session = request.getSession();        </span><br><span class="line">  if (session.getAttribute(&quot;user&quot;) == null) &#123;           </span><br><span class="line">  String userName = request.getParameter(&quot;userName&quot;);            </span><br><span class="line">  String password = request.getParameter(&quot;password&quot;);            </span><br><span class="line">  flag = userService.selectByUserName(userName, password);            </span><br><span class="line">  if (flag)&#123;                </span><br><span class="line">    session.setAttribute(&quot;user&quot;,userName);            </span><br><span class="line">    &#125;        </span><br><span class="line">  &#125;        </span><br><span class="line">  if (!flag)&#123;            </span><br><span class="line">    response.sendRedirect(&quot;index.jsp&quot;);        </span><br><span class="line">    &#125;        </span><br><span class="line">  return flag;   </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>后续的其他代码这里就不一一贴出相关代码在：<a href="https://github.com/xiangang-wei/Inteceptor" target="_blank" rel="noopener">https://github.com/xiangang-wei/Inteceptor</a></p>
+<p>具体的运行结果这里也就不再贴图了，实现的效果跟之前的Filter是一致的。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>本文主要是对自己在项目中使用的相关技术进行总结，关于这个知识点还有很多内容没有覆盖到，读者如有兴趣，可以查看相关源码进行分析。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+            <a href="/tags/Spring-MVC/" rel="tag"># Spring MVC</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/09/Spring-MVC-Spring框架使用log4j的学习总结/" rel="next" title="Spring MVC+Spring框架使用log4j的学习总结">
+                <i class="fa fa-chevron-left"></i> Spring MVC+Spring框架使用log4j的学习总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/09/需要搞清楚的关于抓包的问题/" rel="prev" title="需要搞清楚的关于抓包的问题">
+                需要搞清楚的关于抓包的问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://upload.wikimedia.org/wikipedia/zh/6/60/%E5%BE%A1%E5%9D%82%E7%BE%8E%E7%90%B4.png"
+                alt="xiangang" />
+            
+              <p class="site-author-name" itemprop="name">xiangang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/xiangang-wei" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:weiseeu@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.v2ex.com/" title="v2ex" target="_blank">v2ex</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter"><span class="nav-number">2.</span> <span class="nav-text">Filter</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是Filter"><span class="nav-number">2.1.</span> <span class="nav-text">什么是Filter</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Filter的工作原理"><span class="nav-number">2.2.</span> <span class="nav-text">Filter的工作原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#自己实现Filter"><span class="nav-number">2.3.</span> <span class="nav-text">自己实现Filter</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#所用到的工具："><span class="nav-number">2.3.1.</span> <span class="nav-text">所用到的工具：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#具体代码"><span class="nav-number">2.3.2.</span> <span class="nav-text">具体代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Interceptor"><span class="nav-number">3.</span> <span class="nav-text">Interceptor</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#HandlerInterceptor的工作原理"><span class="nav-number">3.1.</span> <span class="nav-text">HandlerInterceptor的工作原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#自己实现HandlerInterceptor"><span class="nav-number">3.2.</span> <span class="nav-text">自己实现HandlerInterceptor</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#所用到的工具：-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">所用到的工具：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#具体的代码："><span class="nav-number">3.2.2.</span> <span class="nav-text">具体的代码：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xiangang</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+<br/>
+<div class="theme-info">
+**  <span id="busuanzi_container_site_pv" class="theme-info">
+&nbsp;&nbsp;|&nbsp;&nbsp;本站总访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+  <span id="busuanzi_container_site_uv" class="theme-info">
+&nbsp;&nbsp;|&nbsp;&nbsp;本站访客数<span id="busuanzi_value_site_uv"></span>人次
+  </span>
+**
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.2.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'yld9JRhMogXxh5R8hrdg8Vsl-gzGzoHsz',
+        appKey: 'Qb9EzQkWCRR1txl8xhgWdDH1',
+        placeholder: '聊个5毛钱的～',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yld9JRhMogXxh5R8hrdg8Vsl-gzGzoHsz", "Qb9EzQkWCRR1txl8xhgWdDH1");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("ArticleReadCounter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+    
+        <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>        
+    
+</body>
+</html>

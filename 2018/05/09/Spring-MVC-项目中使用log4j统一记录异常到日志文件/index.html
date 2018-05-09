@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在之前的文章中有讲过在项目中使用日志的重要性，而且也总结了在Spring框架的Java Web 项目中使用log4j日志框架来记录日志的方法，如果不清楚log4j的使用方法，在阅读本文前可以前往:http://www.jianshu.com/p/6eb61fdfc5dd 进行了解。 1. 不在项目中使用统一的异常处理一般情况下，我们在项目中遇到的异常可以分为：   代码进行编译时产生的异常 项目在">
+<meta name="keywords" content="Java,Spring,Spring MVC,log">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring MVC 项目中使用log4j统一记录异常到日志文件">
+<meta property="og:url" content="http://yoursite.com/2018/05/09/Spring-MVC-项目中使用log4j统一记录异常到日志文件/index.html">
+<meta property="og:site_name" content="科学的超强电磁炮">
+<meta property="og:description" content="在之前的文章中有讲过在项目中使用日志的重要性，而且也总结了在Spring框架的Java Web 项目中使用log4j日志框架来记录日志的方法，如果不清楚log4j的使用方法，在阅读本文前可以前往:http://www.jianshu.com/p/6eb61fdfc5dd 进行了解。 1. 不在项目中使用统一的异常处理一般情况下，我们在项目中遇到的异常可以分为：   代码进行编译时产生的异常 项目在">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-f8abee14f1e10661.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-a86bd226afadb8f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-d43fad37795bc831.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-7f65960f3c29bc8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-05-09T14:44:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring MVC 项目中使用log4j统一记录异常到日志文件">
+<meta name="twitter:description" content="在之前的文章中有讲过在项目中使用日志的重要性，而且也总结了在Spring框架的Java Web 项目中使用log4j日志框架来记录日志的方法，如果不清楚log4j的使用方法，在阅读本文前可以前往:http://www.jianshu.com/p/6eb61fdfc5dd 进行了解。 1. 不在项目中使用统一的异常处理一般情况下，我们在项目中遇到的异常可以分为：   代码进行编译时产生的异常 项目在">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2609728-f8abee14f1e10661.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="科学的超强电磁炮" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/09/Spring-MVC-项目中使用log4j统一记录异常到日志文件/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Spring MVC 项目中使用log4j统一记录异常到日志文件 | 科学的超强电磁炮</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">科学的超强电磁炮</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">点滴积累，聚沙成塔</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">18</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">10</span></a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/Spring-MVC-项目中使用log4j统一记录异常到日志文件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xiangang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://upload.wikimedia.org/wikipedia/zh/6/60/%E5%BE%A1%E5%9D%82%E7%BE%8E%E7%90%B4.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="科学的超强电磁炮">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring MVC 项目中使用log4j统一记录异常到日志文件
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-09 22:41:58 / 修改时间：22:44:25" itemprop="dateCreated datePublished" datetime="2018-05-09T22:41:58+08:00">2018-05-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/09/Spring-MVC-项目中使用log4j统一记录异常到日志文件/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/05/09/Spring-MVC-项目中使用log4j统一记录异常到日志文件/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/05/09/Spring-MVC-项目中使用log4j统一记录异常到日志文件/" class="leancloud_visitors" data-flag-title="Spring MVC 项目中使用log4j统一记录异常到日志文件">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在之前的文章中有讲过在项目中使用日志的重要性，而且也总结了在Spring框架的Java Web 项目中使用log4j日志框架来记录日志的方法，如果不清楚log4j的使用方法，在阅读本文前可以前往:<a href="http://www.jianshu.com/p/6eb61fdfc5dd" target="_blank" rel="noopener">http://www.jianshu.com/p/6eb61fdfc5dd</a> 进行了解。</p>
+<h3 id="1-不在项目中使用统一的异常处理"><a href="#1-不在项目中使用统一的异常处理" class="headerlink" title="1. 不在项目中使用统一的异常处理"></a>1. 不在项目中使用统一的异常处理</h3><p>一般情况下，我们在项目中遇到的异常可以分为：</p>
+<blockquote>
+<ol>
+<li>代码进行编译时产生的异常</li>
+<li>项目在实际运行时遇到的异常</li>
+</ol>
+</blockquote>
+<p>对于前者，我们可以在项目的开发阶段时进行定位和解决，但是对于后者，我们要想定位异常，通常都会去服务器（例如Tomcat）的log日志中寻找。但是这种方法并不方便，试想如果你的服务器中部署了多个Web应用程序，那么关于这些应用程序的所有的日志都集中在一起，那么当应用程序出现问题时，寻找起来势必是非常的费力。那么我们可不可以对于某个特定的应用程序，指定一个文件夹来单独存放有关于它的异常错误日志呢？答案当然是肯定的，而且借助于log4j日志框架，我们可以实现这个功能。下面的例子展示了使用log4j来记录异常的方法。（有关于log4j的具体配置请参考：<a href="http://www.jianshu.com/p/6eb61fdfc5dd）" target="_blank" rel="noopener">http://www.jianshu.com/p/6eb61fdfc5dd）</a><br>我们在可能出现异常的地方使用try…catch的方法来抛出和处理异常。<br>我们可以在Service层类中可能出现异常的地方使用try…catch：<br><code>ValidateName.java</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">package service;</span><br><span class="line">import org.apache.log4j.Logger;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line">/** </span><br><span class="line">* Created by xiangang on 2016/11/25. </span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">@Service</span><br><span class="line">public class ValidateName &#123;   </span><br><span class="line">  private static final Logger logger = Logger.getLogger(ValidateName.class);    </span><br><span class="line">  public boolean validation(String name) &#123;        </span><br><span class="line">    boolean flag = false;       </span><br><span class="line">    //故意设置为空，以便抛出异常        </span><br><span class="line">    String storedName = null;        </span><br><span class="line"></span><br><span class="line">    //使用try..catch        </span><br><span class="line">    try &#123;            </span><br><span class="line">      if (storedName.equals(name))&#123;                </span><br><span class="line">        flag = true;               </span><br><span class="line">        return flag;            </span><br><span class="line">      &#125;else &#123;                </span><br><span class="line">        return flag;            </span><br><span class="line">      &#125;        </span><br><span class="line">    &#125;catch (Exception e)&#123;            </span><br><span class="line">      logger.error(&quot;错误信息&quot;,e);            </span><br><span class="line">      return flag;        </span><br><span class="line">      &#125;    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>编写对应的JSP页面，编辑log4j的配置文件，在相关的Controller里面调用Service层中的这个方法，配置本地服务器，运行。可以在指定的日志文件里发现程序出错的信息：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2609728-f8abee14f1e10661.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="程序运行错误日志"></p>
+<p>通过阅读日志我们可以很清楚的定位程序出错的位置。这样是可以解决我们的问题，但是通过这种方法来输出错误日志时会带来代码冗余，降低代码的可读性，影响程序的执行速度。而且对于有些代码我们在编写的时候并不知道是否会出现异常。试想如果我们要在没有个可能出错的地方使用try…catch语句手动的记录日志，那么一个项目中有这么多的业务逻辑的代码，如此一来，整个项目的代码量势必会增加很多，被这不是一个很好的方法。其实我们通过使用Spring MVC的异常统一处理器就能很好的解决这个问题。</p>
+<h3 id="2-使用Spring-MVC的统一异常处理器"><a href="#2-使用Spring-MVC的统一异常处理器" class="headerlink" title="2. 使用Spring MVC的统一异常处理器"></a>2. 使用Spring MVC的统一异常处理器</h3><p>Spring MVC定义了异常的统一处理机制，其工作原理是：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2609728-a86bd226afadb8f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Spring MVC统一异常处理流程.png"></p>
+<p>不管是应用程序的哪里出现异常，都向上层抛出异常，最后异常被提交到Spring MVC的Dispatcher Servlet中，Dispatcher Servlet在调用系统统一的异常处理器来处理异常。</p>
+<p>借助Spring MVC的异常处理机制，我们通过实现HandlerExceptionResolver接口来定义我们自己的异常处理器，然后在异常处理器里使用log4j对所有的异常进行统一的处理，这样我们就不需要向上面一样在每个可能出现异常的地方都是用try..catch来记录异常。</p>
+<p>实现自己的异常处理器：<br><code>MyExceptionHandler.java</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package exceptionHandler;</span><br><span class="line"></span><br><span class="line">import org.apache.log4j.Logger;</span><br><span class="line">import org.springframework.web.servlet.HandlerExceptionResolver;</span><br><span class="line">import org.springframework.web.servlet.ModelAndView;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line">/** </span><br><span class="line">* Created by xiangang on 2016/11/25. </span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">public class MyExceptionHandler implements HandlerExceptionResolver &#123;    </span><br><span class="line"></span><br><span class="line">  private static final Logger logger = Logger.getLogger(MyExceptionHandler.class);   </span><br><span class="line"> </span><br><span class="line"> /** </span><br><span class="line">  * 通过实现借口HandlerExceptionResolver的resolveException方法，</span><br><span class="line">  * 来完成日志的记录，而且还可以指定程序发生错误后跳转的web页面</span><br><span class="line">  */</span><br><span class="line"> @Override    </span><br><span class="line">  public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) &#123;          </span><br><span class="line">    logger.error(&quot;&quot;,ex);        </span><br><span class="line">    return new ModelAndView(&quot;error&quot;).addObject(&quot;exception&quot;,ex);    </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在Spring MVC的配置文件里通过bean声明注册到IoC容器，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">省略了其他的配置信息</span><br><span class="line">&lt;!--配置自定义异常处理类--&gt;</span><br><span class="line">&lt;bean id=&quot;handlerExceptionResolver&quot; class=&quot;exceptionHandler.MyExceptionHandler&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>修改我们Service层中的方法：<br><code>ValidateName.java</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package service;</span><br><span class="line">import org.apache.log4j.Logger;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line">/** </span><br><span class="line">* Created by xiangang on 2016/11/25. </span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">@Service</span><br><span class="line">public class ValidateName &#123;   </span><br><span class="line">  private static final Logger logger = Logger.getLogger(ValidateName.class);    </span><br><span class="line">  public boolean validation(String name) &#123;        </span><br><span class="line">    boolean flag = false;       </span><br><span class="line">    //故意设置为空，以便抛出异常        </span><br><span class="line">    String storedName = null;      </span><br><span class="line">  </span><br><span class="line">    if (storedName.equals(name))&#123;                </span><br><span class="line">      flag = true;               </span><br><span class="line">      return flag;            </span><br><span class="line">    &#125;else &#123;                </span><br><span class="line">      return flag;            </span><br><span class="line">    &#125;        </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>配置发生错误时的页面：<br><code>error.jsp</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--  </span><br><span class="line">Created by IntelliJ IDEA.  </span><br><span class="line">User: xiangang  </span><br><span class="line">Date: 2016/11/25  </span><br><span class="line">Time: 下午1:40  </span><br><span class="line">To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line"></span><br><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;    </span><br><span class="line">&lt;title&gt;错误页面!&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;不好意思，你请求的页面被怪兽吃掉了！&lt;/h1&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在相关的Controller里面调用Service层中的这个方法，配置本地服务器，运行应用程序，得到如下页面：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2609728-d43fad37795bc831.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="出现错误后的跳转页面"></p>
+<p>对应的日志文件记录的错误日志：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2609728-7f65960f3c29bc8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="程序运行出现错误的日志"></p>
+<h3 id="3-总结"><a href="#3-总结" class="headerlink" title="3. 总结"></a>3. 总结</h3><p>对于异常的统一处理还有其他的方法，本篇文章只是根据作者自己的经历而总结的一种方法，如有不当之处还请指出、见谅。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+            <a href="/tags/Spring-MVC/" rel="tag"># Spring MVC</a>
+          
+            <a href="/tags/log/" rel="tag"># log</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/09/使用docker搭建gitlab初体验-数据备份/" rel="next" title="使用docker搭建gitlab初体验+数据备份">
+                <i class="fa fa-chevron-left"></i> 使用docker搭建gitlab初体验+数据备份
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/09/Spring-MVC-Spring框架使用log4j的学习总结/" rel="prev" title="Spring MVC+Spring框架使用log4j的学习总结">
+                Spring MVC+Spring框架使用log4j的学习总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://upload.wikimedia.org/wikipedia/zh/6/60/%E5%BE%A1%E5%9D%82%E7%BE%8E%E7%90%B4.png"
+                alt="xiangang" />
+            
+              <p class="site-author-name" itemprop="name">xiangang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/xiangang-wei" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:weiseeu@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.v2ex.com/" title="v2ex" target="_blank">v2ex</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-不在项目中使用统一的异常处理"><span class="nav-number">1.</span> <span class="nav-text">1. 不在项目中使用统一的异常处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-使用Spring-MVC的统一异常处理器"><span class="nav-number">2.</span> <span class="nav-text">2. 使用Spring MVC的统一异常处理器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-总结"><span class="nav-number">3.</span> <span class="nav-text">3. 总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xiangang</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+<br/>
+<div class="theme-info">
+**  <span id="busuanzi_container_site_pv" class="theme-info">
+&nbsp;&nbsp;|&nbsp;&nbsp;本站总访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+  <span id="busuanzi_container_site_uv" class="theme-info">
+&nbsp;&nbsp;|&nbsp;&nbsp;本站访客数<span id="busuanzi_value_site_uv"></span>人次
+  </span>
+**
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.2.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'yld9JRhMogXxh5R8hrdg8Vsl-gzGzoHsz',
+        appKey: 'Qb9EzQkWCRR1txl8xhgWdDH1',
+        placeholder: '聊个5毛钱的～',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yld9JRhMogXxh5R8hrdg8Vsl-gzGzoHsz", "Qb9EzQkWCRR1txl8xhgWdDH1");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("ArticleReadCounter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+    
+        <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>        
+    
+</body>
+</html>

@@ -102,20 +102,18 @@
 
 
 
-  <meta name="description" content="simpleWebFrame本框架是各种开发模式的基础上实现了单入口的web服务框架，可以用来开发API。GitHub仓库地址：https://github.com/xiangang-wei/simpleWebFrame 结构介绍   文件夹 用途     controller 存放用户编写的处理HTTP请求的类,其中Controller.php为控制器基类ControllerResolver.p">
-<meta name="keywords" content="设计模式,PHP">
+  <meta name="description" content="目录   什么是JNI？ 为什么使用JNI？ 怎么使用JNI？ 在IntelliJ IDEA里使用JNI   什么是JNI？JNI(Java Native Interface) Java本地接口，又叫Java原生接口。它允许Java调用C/C++的代码,同时也允许在C/C++中调用Java的代码。可以把JNI理解为一个桥梁，连接Java和底层。其实根据字面意思，JNI就是一个介于Java层和Nat">
+<meta name="keywords" content="Java,JNI,C">
 <meta property="og:type" content="article">
-<meta property="og:title" content="简易的PHP Web API开发框架-simpleWebFrame">
-<meta property="og:url" content="http://yoursite.com/2018/05/09/简易的PHP-Web-API开发框架-simpleWebFrame/index.html">
+<meta property="og:title" content="使用JNI（Java Native Interface）的总结">
+<meta property="og:url" content="http://yoursite.com/2018/05/09/使用JNI（Java-Native-Interface）的总结/index.html">
 <meta property="og:site_name" content="科学的超强电磁炮">
-<meta property="og:description" content="simpleWebFrame本框架是各种开发模式的基础上实现了单入口的web服务框架，可以用来开发API。GitHub仓库地址：https://github.com/xiangang-wei/simpleWebFrame 结构介绍   文件夹 用途     controller 存放用户编写的处理HTTP请求的类,其中Controller.php为控制器基类ControllerResolver.p">
+<meta property="og:description" content="目录   什么是JNI？ 为什么使用JNI？ 怎么使用JNI？ 在IntelliJ IDEA里使用JNI   什么是JNI？JNI(Java Native Interface) Java本地接口，又叫Java原生接口。它允许Java调用C/C++的代码,同时也允许在C/C++中调用Java的代码。可以把JNI理解为一个桥梁，连接Java和底层。其实根据字面意思，JNI就是一个介于Java层和Nat">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-3280509eb4b75c75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-05-09T14:44:34.000Z">
+<meta property="og:updated_time" content="2018-05-09T15:05:19.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="简易的PHP Web API开发框架-simpleWebFrame">
-<meta name="twitter:description" content="simpleWebFrame本框架是各种开发模式的基础上实现了单入口的web服务框架，可以用来开发API。GitHub仓库地址：https://github.com/xiangang-wei/simpleWebFrame 结构介绍   文件夹 用途     controller 存放用户编写的处理HTTP请求的类,其中Controller.php为控制器基类ControllerResolver.p">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2609728-3280509eb4b75c75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="使用JNI（Java Native Interface）的总结">
+<meta name="twitter:description" content="目录   什么是JNI？ 为什么使用JNI？ 怎么使用JNI？ 在IntelliJ IDEA里使用JNI   什么是JNI？JNI(Java Native Interface) Java本地接口，又叫Java原生接口。它允许Java调用C/C++的代码,同时也允许在C/C++中调用Java的代码。可以把JNI理解为一个桥梁，连接Java和底层。其实根据字面意思，JNI就是一个介于Java层和Nat">
 
 
 
@@ -124,7 +122,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/09/简易的PHP-Web-API开发框架-simpleWebFrame/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/09/使用JNI（Java-Native-Interface）的总结/"/>
 
 
 
@@ -134,7 +132,7 @@
   };
 </script>
 
-  <title>简易的PHP Web API开发框架-simpleWebFrame | 科学的超强电磁炮</title>
+  <title>使用JNI（Java Native Interface）的总结 | 科学的超强电磁炮</title>
   
 
 
@@ -298,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/简易的PHP-Web-API开发框架-simpleWebFrame/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/使用JNI（Java-Native-Interface）的总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xiangang">
@@ -315,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">简易的PHP Web API开发框架-simpleWebFrame
+          <h1 class="post-title" itemprop="name headline">使用JNI（Java Native Interface）的总结
               
             
           </h1>
@@ -340,7 +338,7 @@
                 
               
 
-              <time title="创建时间：2018-05-09 20:19:01 / 修改时间：22:44:34" itemprop="dateCreated datePublished" datetime="2018-05-09T20:19:01+08:00">2018-05-09</time>
+              <time title="创建时间：2018-05-09 23:00:27 / 修改时间：23:05:19" itemprop="dateCreated datePublished" datetime="2018-05-09T23:00:27+08:00">2018-05-09</time>
             
 
             
@@ -359,8 +357,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/09/简易的PHP-Web-API开发框架-simpleWebFrame/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/05/09/简易的PHP-Web-API开发框架-simpleWebFrame/" itemprop="commentCount"></span>
+                <a href="/2018/05/09/使用JNI（Java-Native-Interface）的总结/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/05/09/使用JNI（Java-Native-Interface）的总结/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -368,7 +366,7 @@
 
           
           
-             <span id="/2018/05/09/简易的PHP-Web-API开发框架-simpleWebFrame/" class="leancloud_visitors" data-flag-title="简易的PHP Web API开发框架-simpleWebFrame">
+             <span id="/2018/05/09/使用JNI（Java-Native-Interface）的总结/" class="leancloud_visitors" data-flag-title="使用JNI（Java Native Interface）的总结">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -407,59 +405,55 @@
       
 
       
-        <h1 id="simpleWebFrame"><a href="#simpleWebFrame" class="headerlink" title="simpleWebFrame"></a>simpleWebFrame</h1><p>本框架是各种开发模式的基础上实现了单入口的web服务框架，可以用来开发API。<br>GitHub仓库地址：<a href="https://github.com/xiangang-wei/simpleWebFrame" target="_blank" rel="noopener">https://github.com/xiangang-wei/simpleWebFrame</a></p>
-<h2 id="结构介绍"><a href="#结构介绍" class="headerlink" title="结构介绍"></a>结构介绍</h2><table>
-<thead>
-<tr>
-<th>文件夹</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>controller</td>
-<td>存放用户编写的处理HTTP请求的类,其中<code>Controller.php</code>为控制器基类<code>ControllerResolver.php</code>为HTTP请求映射器</td>
-</tr>
-<tr>
-<td>config</td>
-<td>文件 <code>config.php</code>存放系统的配置信息，如数据库连接信息等</td>
-</tr>
-<tr>
-<td>dispatcher</td>
-<td>统一处理接收的HTTP请求</td>
-</tr>
-<tr>
-<td>public</td>
-<td>系统入口处，系统为单一入口文件<code>index.php</code></td>
-</tr>
-<tr>
-<td>registry</td>
-<td>注册表类，提供系统配置信息、请求信息的全局访问，其中<code>ApplicationRegistry.php</code>提供系统信息，<code>RequestRegistry.php</code>提供请求信息</td>
-</tr>
-<tr>
-<td>request</td>
-<td>封装的HTTP请求</td>
-</tr>
-<tr>
-<td>view</td>
-<td>视图层文件</td>
-</tr>
-</tbody>
-</table>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><ol>
-<li><p>从GitHub上clone本项目的代码到本地</p>
-</li>
-<li><p>运行<code>composer install</code></p>
-</li>
-<li><p>将代码部署到本地Web服务器，把<code>simpleWebFrame\public</code>设置为<code>DocumentRoot</code>。可以使用PHP内置的Web服务器快速部署验证：进入到目录<code>simpleWebFrame\public</code>，运行命令<code>php -S localhost:8000</code>，启动成功之后，打开浏览器输入网址：<code>localhost:8000</code>即可看到欢迎页面！</p>
-</li>
+        <p><strong>目录</strong></p>
+<blockquote>
+<ol>
+<li>什么是JNI？</li>
+<li>为什么使用JNI？</li>
+<li>怎么使用JNI？</li>
+<li>在IntelliJ IDEA里使用JNI</li>
 </ol>
-<p><img src="http://upload-images.jianshu.io/upload_images/2609728-3280509eb4b75c75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="welcome.png"></p>
-<ol start="4">
-<li>如果需要写新的<code>Controller</code>，在<code>controller</code>文件夹创建命名为<code>xxxController.php</code>的类即可</li>
+</blockquote>
+<h2 id="什么是JNI？"><a href="#什么是JNI？" class="headerlink" title="什么是JNI？"></a>什么是JNI？</h2><p>JNI(Java Native Interface) Java本地接口，又叫Java原生接口。它允许Java调用C/C++的代码,同时也允许在C/C++中调用Java的代码。可以把JNI理解为一个桥梁，连接Java和底层。其实根据字面意思，JNI就是一个介于Java层和Native层的接口，而Native层就是C/C++层面。</p>
+<h2 id="为什么使用JNI？"><a href="#为什么使用JNI？" class="headerlink" title="为什么使用JNI？"></a>为什么使用JNI？</h2><p>一般情况下都是从Java的角度来使用JNI，也就是说在Java中调用C/C++语言来实现一些操作。所以从Java角度来说使用JNI具有以下的优点：</p>
+<blockquote>
+<ol>
+<li>能够重复使用一些现成的、具有相同功能的的C/C++代码</li>
+<li>因为C/C++是偏向底层的语言，所以使用C/C++能够更加的高效，而且也使得Java能够访问操作系统中一些底层的特性。</li>
 </ol>
-<h2 id="访问方法"><a href="#访问方法" class="headerlink" title="访问方法"></a>访问方法</h2><p>如果在在<code>controller</code>文件夹创建命名为<code>InfoController.php</code>的类，同时在类中创建了<code>info()</code>方法，那么通过URL：<code>localhost:8000/Info/info</code>就能访问该方法 </p>
-<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>目前还没有视图解析器…</p>
+</blockquote>
+<h2 id="怎么使用JNI？"><a href="#怎么使用JNI？" class="headerlink" title="怎么使用JNI？"></a>怎么使用JNI？</h2><p><em>这里所说的使用JNI是指从Java层调用C/C++代码，一般的使用步骤都是使用Java定义一个类，然后在该类中声明一个native的方法，接着使用C/C++来实现这个方法的方法体。</em></p>
+<h3 id="使用Java声明native方法"><a href="#使用Java声明native方法" class="headerlink" title="使用Java声明native方法"></a>使用Java声明native方法</h3><p><strong>方法一：</strong>TestJNI.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public class TestJNI&#123;</span><br><span class="line">	public native void sayHello();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在声明native方法的时候还可以规定具体的包，例如：</p>
+<p><strong>方法二：</strong>TestJNI.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">package jnilib;</span><br><span class="line">public class TestJNI&#123;</span><br><span class="line">	public native void sayHello();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这两种方式都可以，但是使用这两种方式声明native方法，最后生成的动态库时，在IntelliJ IDEA中的使用方法却是不一样（这一点在最后会进行说明），这里我们采用方法二。</p>
+<h3 id="编译声明的Java文件"><a href="#编译声明的Java文件" class="headerlink" title="编译声明的Java文件"></a>编译声明的Java文件</h3><p>先使用<code>javac</code>编译生成<code>.class</code>文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac -d . TestJNI.java</span><br></pre></td></tr></table></figure>
+<p>因为在源码中使用了package的命令，所以编译的时候需要用”-d .”参数，其中”.”表示在当前目录生成    <strong>jnilib文件夹</strong>来存放编译生成<code>.class</code>文件</p>
+<p>再使用<code>javah</code>编译生成<code>.h</code>文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javah jnilib.TestJNI</span><br></pre></td></tr></table></figure>
+<p>需要在类文件名前面加上包名，编译完成之后，会在当前目录生成<code>jnilib_TestJNI.h</code>的文件，接下来我们用C语言来实现刚刚声明的函数时，需要<code>include</code>这个头文件。</p>
+<p>jnilib_TestJNI.h：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/* DO NOT EDIT THIS FILE - it is machine generated */</span><br><span class="line">#include &lt;jni.h&gt;</span><br><span class="line">/* Header for class jnilib_TestJNI */</span><br><span class="line"></span><br><span class="line">#ifndef _Included_jnilib_TestJNI</span><br><span class="line">#define _Included_jnilib_TestJNI</span><br><span class="line">#ifdef __cplusplus</span><br><span class="line">extern &quot;C&quot; &#123;</span><br><span class="line">#endif</span><br><span class="line">/*</span><br><span class="line"> * Class:     jnilib_TestJNI</span><br><span class="line"> * Method:    sayHello</span><br><span class="line"> * Signature: ()V</span><br><span class="line"> */</span><br><span class="line">JNIEXPORT void JNICALL Java_jnilib_TestJNI_sayHello</span><br><span class="line">  (JNIEnv *, jobject);</span><br><span class="line"></span><br><span class="line">#ifdef __cplusplus</span><br><span class="line">&#125;</span><br><span class="line">#endif</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<p>其中 <code>JNIEXPORT void JNICALL Java_jnilib_TestJNI_sayHello(JNIEnv *, jobject);</code> 就是我们用Java声明的native函数经过转换之后的形式，当我们用C语言来实现的时候需要使用这个函数的声明。</p>
+<p>###3.3 用C语言来实现函数<br>创建一个<code>TestJNI.c</code>文件：</p>
+<p>TestJNI.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &quot;jnilib_TestJNI.h&quot;</span><br><span class="line"></span><br><span class="line">JNIEXPORT void JNICALL Java_jnilib_TestJNI_sayHello(JNIEnv *env, jobject object)&#123;</span><br><span class="line">	printf(&quot;Hello World!\n&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="生成动态库文件"><a href="#生成动态库文件" class="headerlink" title="生成动态库文件"></a>生成动态库文件</h3><p>这需要注意的是在不同的操作系统，能够生成的动态库文件也是不一样的，在Windows中，要生成<code>.dll</code>文件，在Linux中要生成<code>.so</code>文件，在Mac OS X中要生成<code>.jnilib</code>文件。同时定义生成的库文件名的时候也要遵循：lib+文件名＋扩展名 的原则。本例中我们在Mac OS X中所以我们定义生成的库文件为：<code>libTestJNI.jnilib</code>。</p>
+<p>makefile：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CC=gcc</span><br><span class="line">CFLAGS=I.</span><br><span class="line"></span><br><span class="line">libTestJNI.jnilib : TestJNI.c</span><br><span class="line">	$(CC) -fPIC -I/Library/java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/include -I/Library/java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/include/darwin -shared -o $@ $^</span><br></pre></td></tr></table></figure>
+<p>执行make之后获得 libTestJNI.jnilib其中<code>/Library/java/JavaVirtualMachines/jdk1.8.0_91.jdk</code>为Java的安装目录。</p>
+<h3 id="使用生成的动态库文件"><a href="#使用生成的动态库文件" class="headerlink" title="使用生成的动态库文件"></a>使用生成的动态库文件</h3><p>使用Java调用生成的动态库</p>
+<p>Demo.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import jnilib.TestJNI;</span><br><span class="line">public class Demo&#123;</span><br><span class="line">	static&#123;</span><br><span class="line">			try&#123;</span><br><span class="line">				System.loadLibrary(&quot;TestJNI&quot;);</span><br><span class="line">			&#125;catch(UnsatisfiedLinkError e)&#123;</span><br><span class="line">				System.err.println(&quot;Native code library failed to load.\n&quot; + e);</span><br><span class="line">				System.exit(1);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		TestJNI test = new TestJNI();</span><br><span class="line">		test.sayHello();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译、执行后得到结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello World!</span><br></pre></td></tr></table></figure>
+<h2 id="在IntelliJ-IDEA里使用JNI？"><a href="#在IntelliJ-IDEA里使用JNI？" class="headerlink" title="在IntelliJ IDEA里使用JNI？"></a>在IntelliJ IDEA里使用JNI？</h2><p>利用IntelliJ IDEA创建项目，这里因为我们之前声明native函数的时候使用了package，所以我们需要在src/main/java的目录下创建一个文件夹为jnilib，把我们之前生成的<code>TestJNI.java libTest.jnilib</code> 文件放到该目录下。接着我们创建Demo文件来调用生成的动态库，但是如果我们此时运行我们的Demo的话会产生下面的异常：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.lang.UnsatisfiedLinkError: no GetDownloadID in java.library.path</span><br></pre></td></tr></table></figure>
+<p>这时我们需要点击<code>EditConfigurations</code>在 <code>VM Options</code> 一栏填上 <code>-Djava.library.path=&quot;/Users/xiangang/JavaWebLearning/DownloadID/src/main/java/jnilib&quot;</code>双引号里面的路径就是你刚刚创建的 <code>jnilib</code>文件夹的路径。</p>
+<p>如果我们在声明native函数的时候没有使用package命令，则我们<strong>必须把以上的两个文件放在src/main/java目录下，而且调用这个库文件的文件也不能使用package。</strong></p>
 
       
     </div>
@@ -480,9 +474,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+            <a href="/tags/Java/" rel="tag"># Java</a>
           
-            <a href="/tags/PHP/" rel="tag"># PHP</a>
+            <a href="/tags/JNI/" rel="tag"># JNI</a>
+          
+            <a href="/tags/C/" rel="tag"># C</a>
           
         </div>
       
@@ -495,8 +491,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/09/从SVN迁移代码到Git实践总结/" rel="next" title="从SVN迁移代码到Git实践总结">
-                <i class="fa fa-chevron-left"></i> 从SVN迁移代码到Git实践总结
+              <a href="/2018/05/09/使用IP地址通信时数据转发的流程/" rel="next" title="使用IP地址通信时数据转发的流程">
+                <i class="fa fa-chevron-left"></i> 使用IP地址通信时数据转发的流程
               </a>
             
           </div>
@@ -504,10 +500,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/09/使用docker搭建gitlab初体验-数据备份/" rel="prev" title="使用docker搭建gitlab初体验+数据备份">
-                使用docker搭建gitlab初体验+数据备份 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -710,7 +702,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#simpleWebFrame"><span class="nav-number">1.</span> <span class="nav-text">simpleWebFrame</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#结构介绍"><span class="nav-number">1.1.</span> <span class="nav-text">结构介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number">1.2.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问方法"><span class="nav-number">1.3.</span> <span class="nav-text">访问方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续"><span class="nav-number">1.4.</span> <span class="nav-text">后续</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是JNI？"><span class="nav-number">1.</span> <span class="nav-text">什么是JNI？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么使用JNI？"><span class="nav-number">2.</span> <span class="nav-text">为什么使用JNI？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么使用JNI？"><span class="nav-number">3.</span> <span class="nav-text">怎么使用JNI？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Java声明native方法"><span class="nav-number">3.1.</span> <span class="nav-text">使用Java声明native方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译声明的Java文件"><span class="nav-number">3.2.</span> <span class="nav-text">编译声明的Java文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成动态库文件"><span class="nav-number">3.3.</span> <span class="nav-text">生成动态库文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用生成的动态库文件"><span class="nav-number">3.4.</span> <span class="nav-text">使用生成的动态库文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在IntelliJ-IDEA里使用JNI？"><span class="nav-number">4.</span> <span class="nav-text">在IntelliJ IDEA里使用JNI？</span></a></li></ol></div>
             
 
           </div>

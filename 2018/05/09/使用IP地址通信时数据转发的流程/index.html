@@ -102,13 +102,18 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="科学的超强电磁炮">
-<meta property="og:url" content="http://yoursite.com/categories/Test/index.html">
+  <meta name="description" content="背景：在复习计算机通信相关的知识的时候，有遇到一个问题：网络中两台主机A和B使用IP地址进行通信时，数据包是怎么转发的？ 具体的流程： 主机A打算通过IP地址向主机B发送信息，首先在主机A的网络层中对数据进行组装，其中：  源IP地址：A的IP地址目的IP地址：B的IP地址   在主机A的网络层，首先判断主机B的IP地址与主机A是否时属于同一个字网，具体的做法是：主机A使用自己的字网掩码与主机B的">
+<meta name="keywords" content="HTTP,网络,IP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用IP地址通信时数据转发的流程">
+<meta property="og:url" content="http://yoursite.com/2018/05/09/使用IP地址通信时数据转发的流程/index.html">
 <meta property="og:site_name" content="科学的超强电磁炮">
+<meta property="og:description" content="背景：在复习计算机通信相关的知识的时候，有遇到一个问题：网络中两台主机A和B使用IP地址进行通信时，数据包是怎么转发的？ 具体的流程： 主机A打算通过IP地址向主机B发送信息，首先在主机A的网络层中对数据进行组装，其中：  源IP地址：A的IP地址目的IP地址：B的IP地址   在主机A的网络层，首先判断主机B的IP地址与主机A是否时属于同一个字网，具体的做法是：主机A使用自己的字网掩码与主机B的">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-09T15:05:20.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="科学的超强电磁炮">
+<meta name="twitter:title" content="使用IP地址通信时数据转发的流程">
+<meta name="twitter:description" content="背景：在复习计算机通信相关的知识的时候，有遇到一个问题：网络中两台主机A和B使用IP地址进行通信时，数据包是怎么转发的？ 具体的流程： 主机A打算通过IP地址向主机B发送信息，首先在主机A的网络层中对数据进行组装，其中：  源IP地址：A的IP地址目的IP地址：B的IP地址   在主机A的网络层，首先判断主机B的IP地址与主机A是否时属于同一个字网，具体的做法是：主机A使用自己的字网掩码与主机B的">
 
 
 
@@ -117,7 +122,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/Test/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/09/使用IP地址通信时数据转发的流程/"/>
 
 
 
@@ -127,7 +132,7 @@
   };
 </script>
 
-  <title>分类: Test | 科学的超强电磁炮</title>
+  <title>使用IP地址通信时数据转发的流程 | 科学的超强电磁炮</title>
   
 
 
@@ -174,7 +179,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -232,7 +237,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">7</span></a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">18</span></a>
   </li>
         
         
@@ -240,7 +245,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">5</span></a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">10</span></a>
   </li>
 
       
@@ -271,82 +276,259 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Test<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
+
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/使用IP地址通信时数据转发的流程/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xiangang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://upload.wikimedia.org/wikipedia/zh/6/60/%E5%BE%A1%E5%9D%82%E7%BE%8E%E7%90%B4.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="科学的超强电磁炮">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/05/08/Test/" itemprop="url">
-              
-                <span itemprop="name">测试</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">使用IP地址通信时数据转发的流程
+              
+            
+          </h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-05-08T12:57:23+08:00"
-              content="2018-05-08" >
-          05-08
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
 
-    </header>
-  </article>
+            
+            
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-09 22:58:22 / 修改时间：23:05:20" itemprop="dateCreated datePublished" datetime="2018-05-09T22:58:22+08:00">2018-05-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/09/使用IP地址通信时数据转发的流程/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/05/09/使用IP地址通信时数据转发的流程/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/05/09/使用IP地址通信时数据转发的流程/" class="leancloud_visitors" data-flag-title="使用IP地址通信时数据转发的流程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>在复习计算机通信相关的知识的时候，有遇到一个问题：网络中两台主机A和B使用IP地址进行通信时，数据包是怎么转发的？</p>
+<h2 id="具体的流程："><a href="#具体的流程：" class="headerlink" title="具体的流程："></a>具体的流程：</h2><ol>
+<li><p>主机A打算通过IP地址向主机B发送信息，首先在主机A的网络层中对数据进行组装，其中：</p>
+<blockquote>
+<p>源IP地址：A的IP地址<br>目的IP地址：B的IP地址</p>
+</blockquote>
+</li>
+<li><p>在主机A的网络层，首先判断主机B的IP地址与主机A是否时属于同一个字网，具体的做法是：主机A使用自己的字网掩码与主机B的IP地址进行“与”运算，得到的结果跟主机A的网络地址进行对比，如果相同则表示A和B属于同一子网，否则属于不同的字网。</p>
+</li>
+<li><p>若A和B属于同一子网，如果A知道B的MAC地址，则在主机A的数据链路层把IP数据包封装成“帧”的形式，其中：</p>
+<blockquote>
+<p>源MAC地址：A的MAC地址<br>目的MAC地址：B的MAC地址<br>源IP地址：A的IP地址<br>目的IP地址：B的IP地址</p>
+</blockquote>
+<p>如果A不知道B的MAC地址，则使用ARP协议，发送一个数据包来获取B的MAC地址，获得之后，在使用同样的方法来对IP数据包进行封装。然后直接发给主机B，至此完成数据传输。<br>若A和B属于不同的子网，A会使用ARP协议发送一个ARP数据包来获取与A相连      接的路由器1的MAC地址，之后再在数据链路层对IP数据包进行封装，其中：</p>
+<blockquote>
+<p>源MAC地址：A的MAC地址<br>目的MAC地址：路由器1的MAC地址<br>源IP地址：A的IP地址<br>目的IP地址：B的IP地址</p>
+</blockquote>
+<p>然后再把封装好的数据帧发送给与A相连接的网关1.</p>
+</li>
+<li><p>路由器1收到来自内部主机A的数据帧后，知道主机A希望自己转发这个数据帧，于是它就查找自己的路由表，路由器的路由表可以有两种方式进行获得：一是管理员手动添加，称为静态配置，另一种是通过路由器转发的记录自动获得，称为动态配置。在路由表中查到有与目的IP地址网络地址相对应的下一个路由地址后，这里假设为路由器2，就会对来自A的数据帧进行重组，重组后：</p>
+<blockquote>
+<p>源MAC地址：路由器1的MAC地址<br>目的MAC地址：路由器2的MAC地址<br>源IP地址：A的IP地址<br>目的IP地址：B的IP地址</p>
+</blockquote>
+<p>如果在路由器1的路由表中没有找到与主机B的网络地址相关的下一个路由地址，就会把数据发送到路由表中的默认路由地址，这是重组后的数据帧中：</p>
+<blockquote>
+<p>源MAC地址：路由器1的MAC地址<br>目的MAC地址：默认路由的MAC地址<br>源IP地址：A的IP地址<br>目的IP地址：B的IP地址</p>
+</blockquote>
+</li>
+<li><p>路由器2在接收到路由器1发来的数据后，首先进行判断目的IP地址即主机B的IP地址是不是自己的本地网络内的，如果是自己所在的子网，则不在进行转发，将接收的数据进行重新封装：</p>
+<blockquote>
+<p>源MAC地址：路由器2的MAC地址<br>目的MAC地址：主机B的MAC地址<br>源IP地址：A的IP地址<br>目的IP地址：B的IP地址</p>
+</blockquote>
+<p>其中主机B的MAC地址可以通过ARP协议获得。封装过后再发给主机B，至此数据传输完成。如果不是，所做的事情跟之前路由器1一样，对其重新进行封装后再转发。</p>
+</li>
+<li><p>接下来的每一跳中，经过的路由器进行转发的时候所做的工作就跟路由器2所做的工作一样，直到找到目的IP（主机B）所在的网络。</p>
+</li>
+</ol>
+<h2 id="需要注意的事："><a href="#需要注意的事：" class="headerlink" title="需要注意的事："></a>需要注意的事：</h2><ul>
+<li>沿途所经过的转发的路由器它们并不知道从主机A到主机B完整的路由路径，它们只是知道自己应该转发的下一个的路由地址。</li>
+<li>数据包在被转发的过程中源、目的MAC地址会被修改，但是相关的IP地址不会被修改。</li>
+<li>以上所讲的路由器也可以理解为网关。</li>
+<li>在UNIX下可以使用命令<code>traceroute + 网址</code>来对完整的路由信息进行跟踪。</li>
+</ul>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HTTP/" rel="tag"># HTTP</a>
+          
+            <a href="/tags/网络/" rel="tag"># 网络</a>
+          
+            <a href="/tags/IP/" rel="tag"># IP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/09/需要搞清楚的关于抓包的问题/" rel="next" title="需要搞清楚的关于抓包的问题">
+                <i class="fa fa-chevron-left"></i> 需要搞清楚的关于抓包的问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/09/使用JNI（Java-Native-Interface）的总结/" rel="prev" title="使用JNI（Java Native Interface）的总结">
+                使用JNI（Java Native Interface）的总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -367,8 +549,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -387,25 +578,12 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
               
 
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  <a href="/categories/index.html">
-                    
-                    
-                      
-                    
-                    <span class="site-state-item-count">1</span>
-                    <span class="site-state-item-name">分类</span>
-                  </a>
-                </div>
               
 
               
@@ -429,7 +607,29 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -490,6 +690,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景："><span class="nav-number">1.</span> <span class="nav-text">背景：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体的流程："><span class="nav-number">2.</span> <span class="nav-text">具体的流程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需要注意的事："><span class="nav-number">3.</span> <span class="nav-text">需要注意的事：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -654,6 +870,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
 
   
 

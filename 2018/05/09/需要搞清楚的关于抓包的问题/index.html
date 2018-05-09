@@ -102,20 +102,18 @@
 
 
 
-  <meta name="description" content="simpleWebFrame本框架是各种开发模式的基础上实现了单入口的web服务框架，可以用来开发API。GitHub仓库地址：https://github.com/xiangang-wei/simpleWebFrame 结构介绍   文件夹 用途     controller 存放用户编写的处理HTTP请求的类,其中Controller.php为控制器基类ControllerResolver.p">
-<meta name="keywords" content="设计模式,PHP">
+  <meta name="description" content="什么是抓包？ 为什么要进行抓包？ 能够进行抓包的技术原理是什么？ 有哪些工具可以用来辅助抓包？ 主流的移动端抓包工具对比   什么是抓包？不同主机之间的数据通信都是通过网络来进行传输，对那些在网络上传输的数据（发送、请求的数据）进行截获、编辑、转存等操作叫做抓包。抓包可以是抓取电脑端请求的数据，还可以抓取移动端（手机APP）的数据包。 为什么要进行抓包？通过对网络上传输的数据进行抓取，可以对其">
+<meta name="keywords" content="HTTP,网络,抓包">
 <meta property="og:type" content="article">
-<meta property="og:title" content="简易的PHP Web API开发框架-simpleWebFrame">
-<meta property="og:url" content="http://yoursite.com/2018/05/09/简易的PHP-Web-API开发框架-simpleWebFrame/index.html">
+<meta property="og:title" content="需要搞清楚的关于抓包的问题">
+<meta property="og:url" content="http://yoursite.com/2018/05/09/需要搞清楚的关于抓包的问题/index.html">
 <meta property="og:site_name" content="科学的超强电磁炮">
-<meta property="og:description" content="simpleWebFrame本框架是各种开发模式的基础上实现了单入口的web服务框架，可以用来开发API。GitHub仓库地址：https://github.com/xiangang-wei/simpleWebFrame 结构介绍   文件夹 用途     controller 存放用户编写的处理HTTP请求的类,其中Controller.php为控制器基类ControllerResolver.p">
+<meta property="og:description" content="什么是抓包？ 为什么要进行抓包？ 能够进行抓包的技术原理是什么？ 有哪些工具可以用来辅助抓包？ 主流的移动端抓包工具对比   什么是抓包？不同主机之间的数据通信都是通过网络来进行传输，对那些在网络上传输的数据（发送、请求的数据）进行截获、编辑、转存等操作叫做抓包。抓包可以是抓取电脑端请求的数据，还可以抓取移动端（手机APP）的数据包。 为什么要进行抓包？通过对网络上传输的数据进行抓取，可以对其">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-3280509eb4b75c75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-05-09T14:44:34.000Z">
+<meta property="og:updated_time" content="2018-05-09T14:58:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="简易的PHP Web API开发框架-simpleWebFrame">
-<meta name="twitter:description" content="simpleWebFrame本框架是各种开发模式的基础上实现了单入口的web服务框架，可以用来开发API。GitHub仓库地址：https://github.com/xiangang-wei/simpleWebFrame 结构介绍   文件夹 用途     controller 存放用户编写的处理HTTP请求的类,其中Controller.php为控制器基类ControllerResolver.p">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2609728-3280509eb4b75c75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="需要搞清楚的关于抓包的问题">
+<meta name="twitter:description" content="什么是抓包？ 为什么要进行抓包？ 能够进行抓包的技术原理是什么？ 有哪些工具可以用来辅助抓包？ 主流的移动端抓包工具对比   什么是抓包？不同主机之间的数据通信都是通过网络来进行传输，对那些在网络上传输的数据（发送、请求的数据）进行截获、编辑、转存等操作叫做抓包。抓包可以是抓取电脑端请求的数据，还可以抓取移动端（手机APP）的数据包。 为什么要进行抓包？通过对网络上传输的数据进行抓取，可以对其">
 
 
 
@@ -124,7 +122,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/09/简易的PHP-Web-API开发框架-simpleWebFrame/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/09/需要搞清楚的关于抓包的问题/"/>
 
 
 
@@ -134,7 +132,7 @@
   };
 </script>
 
-  <title>简易的PHP Web API开发框架-simpleWebFrame | 科学的超强电磁炮</title>
+  <title>需要搞清楚的关于抓包的问题 | 科学的超强电磁炮</title>
   
 
 
@@ -298,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/简易的PHP-Web-API开发框架-simpleWebFrame/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/需要搞清楚的关于抓包的问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xiangang">
@@ -315,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">简易的PHP Web API开发框架-simpleWebFrame
+          <h1 class="post-title" itemprop="name headline">需要搞清楚的关于抓包的问题
               
             
           </h1>
@@ -340,7 +338,7 @@
                 
               
 
-              <time title="创建时间：2018-05-09 20:19:01 / 修改时间：22:44:34" itemprop="dateCreated datePublished" datetime="2018-05-09T20:19:01+08:00">2018-05-09</time>
+              <time title="创建时间：2018-05-09 22:54:02 / 修改时间：22:58:54" itemprop="dateCreated datePublished" datetime="2018-05-09T22:54:02+08:00">2018-05-09</time>
             
 
             
@@ -359,8 +357,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/09/简易的PHP-Web-API开发框架-simpleWebFrame/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/05/09/简易的PHP-Web-API开发框架-simpleWebFrame/" itemprop="commentCount"></span>
+                <a href="/2018/05/09/需要搞清楚的关于抓包的问题/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/05/09/需要搞清楚的关于抓包的问题/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -368,7 +366,7 @@
 
           
           
-             <span id="/2018/05/09/简易的PHP-Web-API开发框架-simpleWebFrame/" class="leancloud_visitors" data-flag-title="简易的PHP Web API开发框架-simpleWebFrame">
+             <span id="/2018/05/09/需要搞清楚的关于抓包的问题/" class="leancloud_visitors" data-flag-title="需要搞清楚的关于抓包的问题">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -407,59 +405,54 @@
       
 
       
-        <h1 id="simpleWebFrame"><a href="#simpleWebFrame" class="headerlink" title="simpleWebFrame"></a>simpleWebFrame</h1><p>本框架是各种开发模式的基础上实现了单入口的web服务框架，可以用来开发API。<br>GitHub仓库地址：<a href="https://github.com/xiangang-wei/simpleWebFrame" target="_blank" rel="noopener">https://github.com/xiangang-wei/simpleWebFrame</a></p>
-<h2 id="结构介绍"><a href="#结构介绍" class="headerlink" title="结构介绍"></a>结构介绍</h2><table>
-<thead>
-<tr>
-<th>文件夹</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>controller</td>
-<td>存放用户编写的处理HTTP请求的类,其中<code>Controller.php</code>为控制器基类<code>ControllerResolver.php</code>为HTTP请求映射器</td>
-</tr>
-<tr>
-<td>config</td>
-<td>文件 <code>config.php</code>存放系统的配置信息，如数据库连接信息等</td>
-</tr>
-<tr>
-<td>dispatcher</td>
-<td>统一处理接收的HTTP请求</td>
-</tr>
-<tr>
-<td>public</td>
-<td>系统入口处，系统为单一入口文件<code>index.php</code></td>
-</tr>
-<tr>
-<td>registry</td>
-<td>注册表类，提供系统配置信息、请求信息的全局访问，其中<code>ApplicationRegistry.php</code>提供系统信息，<code>RequestRegistry.php</code>提供请求信息</td>
-</tr>
-<tr>
-<td>request</td>
-<td>封装的HTTP请求</td>
-</tr>
-<tr>
-<td>view</td>
-<td>视图层文件</td>
-</tr>
-</tbody>
-</table>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><ol>
-<li><p>从GitHub上clone本项目的代码到本地</p>
-</li>
-<li><p>运行<code>composer install</code></p>
-</li>
-<li><p>将代码部署到本地Web服务器，把<code>simpleWebFrame\public</code>设置为<code>DocumentRoot</code>。可以使用PHP内置的Web服务器快速部署验证：进入到目录<code>simpleWebFrame\public</code>，运行命令<code>php -S localhost:8000</code>，启动成功之后，打开浏览器输入网址：<code>localhost:8000</code>即可看到欢迎页面！</p>
-</li>
+        <blockquote>
+<ol>
+<li>什么是抓包？</li>
+<li>为什么要进行抓包？</li>
+<li>能够进行抓包的技术原理是什么？</li>
+<li>有哪些工具可以用来辅助抓包？</li>
+<li>主流的移动端抓包工具对比</li>
 </ol>
-<p><img src="http://upload-images.jianshu.io/upload_images/2609728-3280509eb4b75c75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="welcome.png"></p>
-<ol start="4">
-<li>如果需要写新的<code>Controller</code>，在<code>controller</code>文件夹创建命名为<code>xxxController.php</code>的类即可</li>
+</blockquote>
+<h2 id="什么是抓包？"><a href="#什么是抓包？" class="headerlink" title="什么是抓包？"></a>什么是抓包？</h2><p>不同主机之间的数据通信都是通过网络来进行传输，对那些在网络上传输的数据（发送、请求的数据）进行截获、编辑、转存等操作叫做抓包。抓包可以是抓取电脑端请求的数据，还可以抓取移动端（手机APP）的数据包。</p>
+<h2 id="为什么要进行抓包？"><a href="#为什么要进行抓包？" class="headerlink" title="为什么要进行抓包？"></a>为什么要进行抓包？</h2><p>通过对网络上传输的数据进行抓取，可以对其进行分析，对于软件的Debug很大的帮助。当然也可以通过抓取用户发送的涉及用户名和密码的数据包来获取用户的密码。</p>
+<h2 id="能够进行抓包的技术原理是什么？"><a href="#能够进行抓包的技术原理是什么？" class="headerlink" title="能够进行抓包的技术原理是什么？"></a>能够进行抓包的技术原理是什么？</h2><p>一般情况下，数据按照各种网络协议按照一定的格式在网络上进行传输，网络上传输的数据是以帧为单位，在对需要发送的数据进行包装的时候，会把数据的接收方、发送的的地址（MAC地址、IP地址等）一起进行包装并进行发送。根据发送方和接收方的地址，会有一条数据包的传输路径，在这条路径上，发送的数据包，会经过网络上很多台主机，标准的TCP/IP协议是这样处理的：当有数据经过主机时，主机会通过存放在数据包里面的地址来进行判断，这个数据包是否是发送自己的，如果不是发给自己的，主机就不会对它进行解析，简单的进行丢弃（转发）。如果是发送给自己的，那么主机就会对其进行解析和存储。</p>
+<p>如果想要存储那些不是发送给自己的数据包，可以把网络适配卡设置为杂乱模式。这样它就会接收经过它的每一个数据包了。</p>
+<h2 id="有哪些工具可以用来辅助移动端数据抓包？"><a href="#有哪些工具可以用来辅助移动端数据抓包？" class="headerlink" title="有哪些工具可以用来辅助移动端数据抓包？"></a>有哪些工具可以用来辅助移动端数据抓包？</h2><ul>
+<li>Charles</li>
+<li>mitmproxy</li>
+<li>Fiddler</li>
+<li>WireShark</li>
+<li>TcpDump</li>
+</ul>
+<h2 id="主流的移动端抓包工具对比"><a href="#主流的移动端抓包工具对比" class="headerlink" title="主流的移动端抓包工具对比"></a>主流的移动端抓包工具对比</h2><p>目前主流的移动端抓包工具为：TcpDump、WireShark、Fiddler， 他们的对比如下。</p>
+<h3 id="TcpDump："><a href="#TcpDump：" class="headerlink" title="TcpDump："></a>TcpDump：</h3><p>Android平台下的网络数据抓包工具，Android模拟器中自带 TcpDump 文件。<br>用 TcpDump 对网络数据抓包，手机不用走代理——将网络数据包添加到 WireShark 中分析即可。</p>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>手机必须获取 root权限；</li>
+<li>不能查看实时通信数据——因为抓取的是 dump出来的文件，而不能实时数据交互；<br>获取的数据很多，分析时需要过滤、只查看真正有用的信息。</li>
 </ol>
-<h2 id="访问方法"><a href="#访问方法" class="headerlink" title="访问方法"></a>访问方法</h2><p>如果在在<code>controller</code>文件夹创建命名为<code>InfoController.php</code>的类，同时在类中创建了<code>info()</code>方法，那么通过URL：<code>localhost:8000/Info/info</code>就能访问该方法 </p>
-<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>目前还没有视图解析器…</p>
+<h3 id="WireShark："><a href="#WireShark：" class="headerlink" title="WireShark："></a>WireShark：</h3><p>PC端截获、分析通过该网卡的所有网络通信的数据包（针对移动端时候，就要对移动端设置 代理服务器）强大的工具，完整查看网络中的每层、每个协议、每个数据包的详细组成信息；TCP、UDP、HTTP、HTTPS等协议的数据包均可获取；</p>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>获取的信息太多，需要手动过滤、进行分析。</li>
+<li>只能查看，不能修改、重发送网络数据包。</li>
+</ol>
+<h3 id="Fiddler："><a href="#Fiddler：" class="headerlink" title="Fiddler："></a>Fiddler：</h3><p>HTTP协议的代理工具，抓取、分析电脑中所有进出该网卡、与网络进行数据交互的数据（针对移动端抓包时，需要设置代理服务器)，主要针对的是 HTTP/HTTPS协议；能够清晰查看 数据包 中的内容——HTTPS中的数据包可以解密出来；</p>
+<p><strong>优点：</strong></p>
+<ol>
+<li>简单易操作，选中后即可修改Response结果</li>
+<li>所见即所得，修改后马上可以看到效果</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>只适用于一次请求，下次请求需要重新设定</li>
+<li>手动修改需要花费时间，如果程序等待超时，本次设定的Response结果失效</li>
+</ol>
+<h2 id="参考网站："><a href="#参考网站：" class="headerlink" title="参考网站："></a>参考网站：</h2><p><a href="http://baike.baidu.com/view/558624.htm" target="_blank" rel="noopener">百度百科</a></p>
+<p><a href="http://hanks.xyz/2015/11/26/%E5%88%A9%E5%99%A8_--_%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/" target="_blank" rel="noopener">利器 – 抓包工具总结</a></p>
+<p><a href="http://blog.csdn.net/xsj362233248/article/details/46913699" target="_blank" rel="noopener">移动端网络数据抓包工具对比分析</a></p>
+<p><a href="http://zqsmm.qiniucdn.com/data/20151201120046/index.html" target="_blank" rel="noopener">fiddler和wireshark工具介绍及对比 - catherine的心路历程 - 博客大巴</a></p>
 
       
     </div>
@@ -480,9 +473,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+            <a href="/tags/HTTP/" rel="tag"># HTTP</a>
           
-            <a href="/tags/PHP/" rel="tag"># PHP</a>
+            <a href="/tags/网络/" rel="tag"># 网络</a>
+          
+            <a href="/tags/抓包/" rel="tag"># 抓包</a>
           
         </div>
       
@@ -495,8 +490,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/09/从SVN迁移代码到Git实践总结/" rel="next" title="从SVN迁移代码到Git实践总结">
-                <i class="fa fa-chevron-left"></i> 从SVN迁移代码到Git实践总结
+              <a href="/2018/05/09/对于Java-Web中的Filter和Interceptor的理解/" rel="next" title="对于Java Web中的Filter和Interceptor的理解">
+                <i class="fa fa-chevron-left"></i> 对于Java Web中的Filter和Interceptor的理解
               </a>
             
           </div>
@@ -505,8 +500,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/05/09/使用docker搭建gitlab初体验-数据备份/" rel="prev" title="使用docker搭建gitlab初体验+数据备份">
-                使用docker搭建gitlab初体验+数据备份 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/09/使用IP地址通信时数据转发的流程/" rel="prev" title="使用IP地址通信时数据转发的流程">
+                使用IP地址通信时数据转发的流程 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -710,7 +705,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#simpleWebFrame"><span class="nav-number">1.</span> <span class="nav-text">simpleWebFrame</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#结构介绍"><span class="nav-number">1.1.</span> <span class="nav-text">结构介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number">1.2.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问方法"><span class="nav-number">1.3.</span> <span class="nav-text">访问方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续"><span class="nav-number">1.4.</span> <span class="nav-text">后续</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是抓包？"><span class="nav-number">1.</span> <span class="nav-text">什么是抓包？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要进行抓包？"><span class="nav-number">2.</span> <span class="nav-text">为什么要进行抓包？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#能够进行抓包的技术原理是什么？"><span class="nav-number">3.</span> <span class="nav-text">能够进行抓包的技术原理是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有哪些工具可以用来辅助移动端数据抓包？"><span class="nav-number">4.</span> <span class="nav-text">有哪些工具可以用来辅助移动端数据抓包？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主流的移动端抓包工具对比"><span class="nav-number">5.</span> <span class="nav-text">主流的移动端抓包工具对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TcpDump："><span class="nav-number">5.1.</span> <span class="nav-text">TcpDump：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WireShark："><span class="nav-number">5.2.</span> <span class="nav-text">WireShark：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fiddler："><span class="nav-number">5.3.</span> <span class="nav-text">Fiddler：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考网站："><span class="nav-number">6.</span> <span class="nav-text">参考网站：</span></a></li></ol></div>
             
 
           </div>
