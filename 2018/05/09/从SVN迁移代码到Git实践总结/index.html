@@ -102,17 +102,23 @@
 
 
 
-  <meta name="keywords" content="test">
+  <meta name="description" content="前言在Git流行起来之前，SVN是一个比较火爆的集中式的版本控制工具。但是Git作为分布式的版本控制工具，它在管理、使用等方面都比SVN要好，越来越多的公司、开发人员开始使用Git来替代SVN。这就涉及到历史代码迁移问题。当然最原始的方法就是把代码手动下载下来，然后手动创建Git仓库，再把代码push上去。这样做不仅耗费时间而且对于一些有用的信息如：原先SVN中的commit纪录等就没有了。今天借">
+<meta name="keywords" content="git,svn">
 <meta property="og:type" content="article">
-<meta property="og:title" content="测试">
-<meta property="og:url" content="http://yoursite.com/2018/05/08/Test/index.html">
+<meta property="og:title" content="从SVN迁移代码到Git实践总结">
+<meta property="og:url" content="http://yoursite.com/2018/05/09/从SVN迁移代码到Git实践总结/index.html">
 <meta property="og:site_name" content="科学的超强电磁炮">
+<meta property="og:description" content="前言在Git流行起来之前，SVN是一个比较火爆的集中式的版本控制工具。但是Git作为分布式的版本控制工具，它在管理、使用等方面都比SVN要好，越来越多的公司、开发人员开始使用Git来替代SVN。这就涉及到历史代码迁移问题。当然最原始的方法就是把代码手动下载下来，然后手动创建Git仓库，再把代码push上去。这样做不仅耗费时间而且对于一些有用的信息如：原先SVN中的commit纪录等就没有了。今天借">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/zh/6/60/%E5%BE%A1%E5%9D%82%E7%BE%8E%E7%90%B4.png">
-<meta property="og:updated_time" content="2018-05-09T12:11:15.000Z">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-08797ff172081d55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-a208833f079cc7af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-4fe4f19a7984cfa0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-e0a3fa6c64b3e42b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-05-09T12:23:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="测试">
-<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/zh/6/60/%E5%BE%A1%E5%9D%82%E7%BE%8E%E7%90%B4.png">
+<meta name="twitter:title" content="从SVN迁移代码到Git实践总结">
+<meta name="twitter:description" content="前言在Git流行起来之前，SVN是一个比较火爆的集中式的版本控制工具。但是Git作为分布式的版本控制工具，它在管理、使用等方面都比SVN要好，越来越多的公司、开发人员开始使用Git来替代SVN。这就涉及到历史代码迁移问题。当然最原始的方法就是把代码手动下载下来，然后手动创建Git仓库，再把代码push上去。这样做不仅耗费时间而且对于一些有用的信息如：原先SVN中的commit纪录等就没有了。今天借">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2609728-08797ff172081d55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -121,7 +127,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/08/Test/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/09/从SVN迁移代码到Git实践总结/"/>
 
 
 
@@ -131,7 +137,7 @@
   };
 </script>
 
-  <title>测试 | 科学的超强电磁炮</title>
+  <title>从SVN迁移代码到Git实践总结 | 科学的超强电磁炮</title>
   
 
 
@@ -295,7 +301,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/08/Test/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/从SVN迁移代码到Git实践总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xiangang">
@@ -312,7 +318,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">测试
+          <h1 class="post-title" itemprop="name headline">从SVN迁移代码到Git实践总结
               
             
           </h1>
@@ -337,46 +343,16 @@
                 
               
 
-              <time title="创建时间：2018-05-08 12:57:23" itemprop="dateCreated datePublished" datetime="2018-05-08T12:57:23+08:00">2018-05-08</time>
+              <time title="创建时间：2018-05-09 20:13:18 / 修改时间：20:23:31" itemprop="dateCreated datePublished" datetime="2018-05-09T20:13:18+08:00">2018-05-09</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-05-09 20:11:15" itemprop="dateModified" datetime="2018-05-09T20:11:15+08:00">2018-05-09</time>
               
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Test/" itemprop="url" rel="index"><span itemprop="name">Test</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -386,8 +362,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/08/Test/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/05/08/Test/" itemprop="commentCount"></span>
+                <a href="/2018/05/09/从SVN迁移代码到Git实践总结/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/05/09/从SVN迁移代码到Git实践总结/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -395,7 +371,7 @@
 
           
           
-             <span id="/2018/05/08/Test/" class="leancloud_visitors" data-flag-title="测试">
+             <span id="/2018/05/09/从SVN迁移代码到Git实践总结/" class="leancloud_visitors" data-flag-title="从SVN迁移代码到Git实践总结">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -434,7 +410,54 @@
       
 
       
-        <p><img src="https://upload.wikimedia.org/wikipedia/zh/6/60/%E5%BE%A1%E5%9D%82%E7%BE%8E%E7%90%B4.png"></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在Git流行起来之前，SVN是一个比较火爆的集中式的版本控制工具。但是Git作为分布式的版本控制工具，它在管理、使用等方面都比SVN要好，越来越多的公司、开发人员开始使用Git来替代SVN。这就涉及到历史代码迁移问题。当然最原始的方法就是把代码手动下载下来，然后手动创建Git仓库，再把代码push上去。这样做不仅耗费时间而且对于一些有用的信息如：原先SVN中的commit纪录等就没有了。今天借着迁移部门之前系统代码的机会，对整个过程进行总结。</p>
+<h2 id="需要了解的背景知识"><a href="#需要了解的背景知识" class="headerlink" title="需要了解的背景知识"></a>需要了解的背景知识</h2><p>由于之前一直使用的是Git，没有接触过SVN，所以对于SVN并不是很了解，尤其是一些基础的术语的了解。也正是因为这个原因让我在往Git上迁移代码的时候遇到了一些麻烦，甚至一度卡在那里，不知道该怎么办了。</p>
+<ul>
+<li><p>下面简单介绍一下SVN以及一些基础的术语：</p>
+<p>SVN的基本工作原理是在一台服务器上建立一个代码仓库，在这个仓库里面可以存放不同项目的源代码，每个用户、开发人员在使用代码仓库之前需要先把代码仓库里面的代码下载到本地（Checkout），然后用户可以在本地对代码进行修改，最后用svn命令进行提交（Commit）。整个流程跟Git的使用相差不多，只是使用的命令不同。其中刚刚介绍的创建代码仓库的服务器称为SVN服务器，用户、开发人员使用SVN客户端与SVN服务器进行交互。</p>
+<ul>
+<li>SVN服务器：一般分为两大种类，一类是独立的服务器，它使用SVN协议，另一类的是借助Apache服务器来实现的，它使用HTTP协议</li>
+<li>SVN客户端：一般分为命令行和图形化工具两大类，常用的图形化工具有TortoiseSVN</li>
+</ul>
+</li>
+<li><p>SVN基本命令：</p>
+<ul>
+<li><p>服务器端（管理员使用的）：svnadmin、 svnserve</p>
+</li>
+<li><p>客户端（开发人员使用的）：svn</p>
+</li>
+</ul>
+</li>
+<li><p>SVN目录</p>
+<ul>
+<li><p>/trunk：开发主线，相当于Git中的Master分支。</p>
+</li>
+<li><p>/branches：支线副本，相当于Git中的其余分支。</p>
+</li>
+<li><p>/tags：标签，与Git中的标签一样。</p>
+</li>
+</ul>
+<p>一般的所有的开发工作都是基于trunk进行的，当一个版本开发完成，或者开发到一定段落（开发、测试、文档、制作安装程序、打包等结束后），代码基本上就处于一个稳定的状态，这是就会将代码打上tag，当下一个版本需要进行开发的时候，还会在trunk进行开发。但是此时如果发现了上一个已发行版本（Released Version）有一些bug，或者一些很急迫的功能要求，而正在开发的版本（Developing Version）无法满足时间要求，这时候就需要在上一个版本上进行修改了。解决方法是基于发行版对应的tag，做相应的分支（branch）进行开发。</p>
+</li>
+</ul>
+<h2 id="从SVN到Git"><a href="#从SVN到Git" class="headerlink" title="从SVN到Git"></a>从SVN到Git</h2><p>首先需要在本地安装SVN客户端，这里由于Mac本身就支持SVN（可以在命令行下使用”svn —version”进行检测），所以我使用的是命令行的形式。若是在Windows环境下也可以下载命令行或者图形化的客户端。</p>
+<ol>
+<li>创建一个文件夹，使用checkout命令，从SVN服务器下载代码到本地<br><img src="http://upload-images.jianshu.io/upload_images/2609728-08797ff172081d55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></li>
+<li>使用命令获取SVN用户信息，然后创建映射文件将SVN用户与Git用户进行映射</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/2609728-a208833f079cc7af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"><br><img src="http://upload-images.jianshu.io/upload_images/2609728-4fe4f19a7984cfa0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<p>将这个SVN用户与Git用户进行映射文件保存为txt格式，命名为authors.txt</p>
+<p>3.使用git svn clone 命令从SVN服务器取回代码，并在本地创建Git仓库，同时使用之前创建的用户映射文件</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2609728-e0a3fa6c64b3e42b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<p> 这里使用git svn clone的语法为：</p>
+<ul>
+<li>如果SVN仓库为不标准的仓库（没有trunk、branches、tags)使用：<br><code>git svn clone --trunk=/trunk --branches=/branches --branches=/bugfixes --tags=/tags --authors-file=authors.txt &lt;svn-repo&gt;/&lt;project&gt; &lt;git-repo-name&gt;</code></li>
+<li>如果SVN为标准仓库：<br><code>git svn clone --stdlayout --authors-file=authors.txt https://svn.atlassian.com/Confluence ConfluenceAsGit</code></li>
+</ul>
+<p>4.将通过<code>git svn clone</code>获得仓库，使用<code>git clone</code>当前目录 目的目录**”  命令克隆到本地其他地方，使用<code>git remote rm origin</code>去除仓库的上游</p>
+<p>5.使用命令<code>git remote add origin xxxxx(git仓库)</code>将这个远程仓库添加到本地仓库的上游</p>
+<p>6.使用命令<code>git push origin master</code>提交代码</p>
+<p>至此大功告成，而且转换的Git仓库还保留着原先SVN中开发人员的提交纪录。</p>
 
       
     </div>
@@ -455,7 +478,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/test/" rel="tag"># test</a>
+            <a href="/tags/git/" rel="tag"># git</a>
+          
+            <a href="/tags/svn/" rel="tag"># svn</a>
           
         </div>
       
@@ -468,8 +493,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/08/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2018/05/08/Test/" rel="next" title="测试">
+                <i class="fa fa-chevron-left"></i> 测试
               </a>
             
           </div>
@@ -478,8 +503,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/05/09/从SVN迁移代码到Git实践总结/" rel="prev" title="从SVN迁移代码到Git实践总结">
-                从SVN迁移代码到Git实践总结 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/09/简易的PHP-Web-API开发框架-simpleWebFrame/" rel="prev" title="简易的PHP Web API开发框架-simpleWebFrame">
+                简易的PHP Web API开发框架-simpleWebFrame <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -532,8 +557,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -655,6 +689,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需要了解的背景知识"><span class="nav-number">2.</span> <span class="nav-text">需要了解的背景知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从SVN到Git"><span class="nav-number">3.</span> <span class="nav-text">从SVN到Git</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

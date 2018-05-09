@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-05-08T16:55:09.000Z</updated>
+  <updated>2018-05-09T12:28:38.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,86 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>使用docker搭建gitlab初体验+数据备份</title>
+    <link href="http://yoursite.com/2018/05/09/%E4%BD%BF%E7%94%A8docker%E6%90%AD%E5%BB%BAgitlab%E5%88%9D%E4%BD%93%E9%AA%8C-%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD/"/>
+    <id>http://yoursite.com/2018/05/09/使用docker搭建gitlab初体验-数据备份/</id>
+    <published>2018-05-09T12:26:13.000Z</published>
+    <updated>2018-05-09T12:28:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一-背景"><a href="#一-背景" class="headerlink" title="一. 背景"></a>一. 背景</h1><p>作为程序员，像GitHub这种好工具是必须得十分了解的，但是有时GitHub并不能满足我们所有的需求，就如作者所在的公司，我们的代码都是商业性的产品，不可能放到GitHub的开放仓库中的，而申请GitHub私人仓库需要钱。这就陷入了尴尬的局面，那有没有一种既能具有GitHub一样的功能，又能保护隐私免费的管理工具呢？答案是肯定的，感谢程序员伟大的开源精神，我们有了GitLab!!!今天笔者在这里就跟大家分享一下自己使用docker搭建GitLab的过程吧，这其中踩了一些坑，希望看过这篇文章的人不用在踩我踩过的坑了！</p><h1 id="二-环境介绍"><a href="#二-环境介绍" class="headerlink" title="二. 环境介绍"></a>二. 环境介绍</h1><p><strong>服务器信息：</strong><br>CPU : 2<br>DISK : 30G<br>RAM : 4G<br>OS : Linux centos7-0 3.10.0-229.el7.x86_64<br><em>这里笔者使用的是自己公司的服务器，也可以使用虚拟机进行搭建</em></p><h1 id="三-搭建过程"><a href="#三-搭建过程" class="headerlink" title="三. 搭建过程"></a>三. 搭建过程</h1><p><strong>1. 安装docker</strong><br>因为我们是使用docker搭建的，所以需要先安装docker，docker支持不同的OS，具体的安装信息这里不做详细介绍，可以自己的操作系统，参考官方的安装指南进行安装。<a href="http://www.docker.io" target="_blank" rel="noopener">http://www.docker.io</a><br><strong>2. 安装GitLab及相关组件</strong><br>GitLab需要用到数据库来存储相关数据，所以需要在安装GitLab的同时安装数据库，这里使用的是postgresql和redis。我在查找相关的镜像，之后发现有很多现成的镜像，这里我使用的sameersbn镜像。但是有一点我认为不是很好的是：这个镜像没有把redis、postgresql集成到gitlab的容器里面，需要先单独pull这两个镜像run一下，然后再pull gitlab的镜像进行安装。</p><p><strong>使用如下命令分别拉取最新的镜像：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull sameersbn/redis</span><br><span class="line">docker pull sameersbn/postgresql</span><br><span class="line">docker pull sameersbn/gitlab</span><br></pre></td></tr></table></figure></p><p><strong>这里有第一个坑：因为我们默认都是从docker的官方仓库中拉去镜像，但是由于国内访问国外的网站有墙，而且速度也是十分的慢，所以需要代理。这里推荐Daocloud加速器 <a href="https://www.daocloud.io/" target="_blank" rel="noopener">https://www.daocloud.io/</a> 免费使用，但是需要先注册，登录成功后，找到加速器执行相关命令即可。笔者亲测速度明显快很多！</strong></p><p><strong>使用如下命令运行postgresql镜像：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run --name postgresql -d \  </span><br><span class="line">-e &apos;DB_NAME=gitlabhq_production&apos; \  </span><br><span class="line">-e &apos;DB_USER=gitlab&apos; \</span><br><span class="line">-e &apos;DB_PASS=password&apos; \  </span><br><span class="line">-e &apos;DB_EXTENSION=pg_trgm&apos; \  </span><br><span class="line">-v /home/root/opt/postgresql/data:/var/lib/postgresql \  </span><br><span class="line">sameersbn/postgresql</span><br></pre></td></tr></table></figure></p><p><strong>这里需要解释的是：</strong><br>(1). 以上是一条命令，反斜杠是为了在命令内换行方便阅读，如果不喜欢，也可以写在一行。<br>(2). <code>-e</code>后面跟的都是容器的环境参数，都是在制作镜像的时候指定好的，所以不要去改动。<br>(3). <code>-v</code>后面是添加数据卷，这样在容器退出的时候数据就不会丢失，其中             <code>/home/root/opt/postgresql/data</code>是作者自己创建的文件夹，读者可以自己自定义，后面的部分是容器内的文件路径，需要保持不变。<br>(4). 命令执行成功之后会在控制台显示一串容器的编号，可以使用命令<code>docker ps</code>查看刚刚启动的容器。</p><p><strong>使用如下命令运行redis镜像：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run --name redis -d \  </span><br><span class="line">-v /home/root/opt/redis/data:/var/lib/redis \  </span><br><span class="line">sameersbn/redis</span><br></pre></td></tr></table></figure></p><p>这里跟启动postgresql一样。</p><p><strong>使用如下命令运行GitLab镜像：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">docker run --name gitlab -d \</span><br><span class="line">--link postgresql:postgresql --link redis:redisio \</span><br><span class="line">-p 10022:22 -p 10080:80 \</span><br><span class="line">-e &apos;GITLAB_PORT=10080&apos; \</span><br><span class="line">-e &apos;GITLAB_SSH_PORT=10022&apos; \</span><br><span class="line">-e &apos;GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alpha-numeric-string&apos;\</span><br><span class="line">-e &apos;GITLAB_SECRETS_SECRET_KEY_BASE=long-and-random-alpha-numeric-string&apos; \</span><br><span class="line">-e &apos;GITLAB_SECRETS_OTP_KEY_BASE=long-and-random-alpha-numeric-string&apos;\</span><br><span class="line">-e &apos;GITLAB_HOST=服务器地址&apos; \</span><br><span class="line">-e &apos;GITLAB_EMAIL=邮箱地址&apos; \</span><br><span class="line">-e &apos;SMTP_ENABLED=true&apos; \</span><br><span class="line">-e &apos;SMTP_DOMAIN=www.sina.com&apos; \</span><br><span class="line">-e &apos;SMTP_HOST=smtp.sina.com&apos; \ </span><br><span class="line">-e &apos;SMTP_STARTTLS=false&apos;  \</span><br><span class="line">-e &apos;SMTP_USER=邮箱地址&apos; \</span><br><span class="line">-e &apos;SMTP_PASS=邮箱密码&apos; \</span><br><span class="line">-e &apos;SMTP_AUTHENTICATION=login&apos; \</span><br><span class="line">-e &apos;GITLAB_BACKUP_SCHEDULE=daily&apos; \</span><br><span class="line">-e &apos;GITLAB_BACKUP_TIME=10:30&apos; \</span><br><span class="line">-v /home/root/opt/gitlab/data:/home/git/data \</span><br><span class="line">sameersbn/gitlab</span><br></pre></td></tr></table></figure></p><p><strong>这里需要解释的是：</strong><br>(1). 网上又很多教程讲关于使用docker安装GitLab，但是讲的不全面，至少我按照他们的方法安装时不能正常运行，这里是第三个坑：一定要加上如下环境参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-e &apos;GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alpha-numeric-string&apos;\</span><br><span class="line">-e &apos;GITLAB_SECRETS_SECRET_KEY_BASE=long-and-random-alpha-numeric-string&apos; \</span><br><span class="line">-e &apos;GITLAB_SECRETS_OTP_KEY_BASE=long-and-random-alpha-numeric-string&apos;\</span><br></pre></td></tr></table></figure></p><p>有关于这三个环境参数的含义：</p><p><img src="http://upload-images.jianshu.io/upload_images/2609728-190543bc68f94afe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="官方的解释"><br>我个人的理解是用来进行加密的key。<br>(2). 上面有关<code>SMTP</code>的环境参数是配置邮箱的，需要填上对应的邮箱信息，我使用的是新浪邮箱，读者可以根据自己的邮箱进行填写。<br>(3). 使用GitLab需要两个端口，一个是web端口，一个是SSH端口用于push代码的所以一下代码进行端口映射和指定：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-p 10022:22 -p 10080:80 \</span><br><span class="line">-e &apos;GITLAB_PORT=10080&apos; \</span><br><span class="line">-e &apos;GITLAB_SSH_PORT=10022&apos; \</span><br></pre></td></tr></table></figure></p><p>(4). GitLab有自带的备份，这里可以通过如下进行配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-e &apos;GITLAB_BACKUP_SCHEDULE=daily&apos; \</span><br><span class="line">-e &apos;GITLAB_BACKUP_TIME=10:30&apos; \</span><br></pre></td></tr></table></figure></p><p>指定的是每天10:30进行备份。</p><p>说到这里基本上GitLab就搭建好了，<strong>这里还有一个小坑就是：运行这些容器的时候可以把代码写进shell脚本中，然后通过脚本进行运行，不然直接在终端打的话很麻烦。</strong></p><p>一下就是笔者安装完后的截图，直接访问：http://服务器地址:10080  即可，首次访问可能会出现错误页面，刷新几下页面就可以了然后在修改密码默认用户名：root  之后就可以正常使用。</p><p><img src="http://upload-images.jianshu.io/upload_images/2609728-db5b5b3d456f922b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="登录界面"></p><p><img src="http://upload-images.jianshu.io/upload_images/2609728-5bd5429d6c93a5e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="group"></p><p><img src="http://upload-images.jianshu.io/upload_images/2609728-a1ef54d062715570.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="admin area"></p><h1 id="四-备份"><a href="#四-备份" class="headerlink" title="四. 备份"></a>四. 备份</h1><p>我们可以使用GitLab自带的备份功能，在启动容器的时候就进行设置，然后再使用GitLab的  <code>app:rake gitlab:backup:restore</code>命令进行恢复，这里网上的教程都有说明可以参考以下网站：<br>sameersbn的GitHub wiki：<br><a href="https://github.com/sameersbn/docker-gitlab#automated-backups" target="_blank" rel="noopener">https://github.com/sameersbn/docker-gitlab#automated-backups</a><br>这个是官方的所以比较全面，里面还有关于各种环境参数的介绍。</p><p><strong>这里作者使用的是如下的备份方法：</strong><br>因为我们在运行postgresql、redis和GitLab的时候都使用了本地的文件夹进行了数据的持久化，而且我们实际需要备份的数据都在本地了，那么其实就可以直接使用<code>rsync</code>命令备份本地的这些卷（刚刚的文件夹）即可，无需再去深入到GitLab内部。如果搭建的GitLab崩溃了，或者服务器崩溃了，直接再使用docker再搭一个，在把刚刚的卷跟对应的postgresql、redis和GitLab内的数据文件夹进行映射即可。这是也不需要修改之前的启动命令，十分的方便而且作者自己测试过，发现能够达到要求，原先的仓库、用户的SSH信息等都在。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一-背景&quot;&gt;&lt;a href=&quot;#一-背景&quot; class=&quot;headerlink&quot; title=&quot;一. 背景&quot;&gt;&lt;/a&gt;一. 背景&lt;/h1&gt;&lt;p&gt;作为程序员，像GitHub这种好工具是必须得十分了解的，但是有时GitHub并不能满足我们所有的需求，就如作者所在的公司
+      
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+    
+      <category term="gitlab" scheme="http://yoursite.com/tags/gitlab/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>简易的PHP Web API开发框架-simpleWebFrame</title>
+    <link href="http://yoursite.com/2018/05/09/%E7%AE%80%E6%98%93%E7%9A%84PHP-Web-API%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6-simpleWebFrame/"/>
+    <id>http://yoursite.com/2018/05/09/简易的PHP-Web-API开发框架-simpleWebFrame/</id>
+    <published>2018-05-09T12:19:01.000Z</published>
+    <updated>2018-05-09T12:24:24.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="simpleWebFrame"><a href="#simpleWebFrame" class="headerlink" title="simpleWebFrame"></a>simpleWebFrame</h1><p>本框架是各种开发模式的基础上实现了单入口的web服务框架，可以用来开发API。<br>GitHub仓库地址：<a href="https://github.com/xiangang-wei/simpleWebFrame" target="_blank" rel="noopener">https://github.com/xiangang-wei/simpleWebFrame</a></p><h2 id="结构介绍"><a href="#结构介绍" class="headerlink" title="结构介绍"></a>结构介绍</h2><table><thead><tr><th>文件夹</th><th>用途</th></tr></thead><tbody><tr><td>controller</td><td>存放用户编写的处理HTTP请求的类,其中<code>Controller.php</code>为控制器基类<code>ControllerResolver.php</code>为HTTP请求映射器</td></tr><tr><td>config</td><td>文件 <code>config.php</code>存放系统的配置信息，如数据库连接信息等</td></tr><tr><td>dispatcher</td><td>统一处理接收的HTTP请求</td></tr><tr><td>public</td><td>系统入口处，系统为单一入口文件<code>index.php</code></td></tr><tr><td>registry</td><td>注册表类，提供系统配置信息、请求信息的全局访问，其中<code>ApplicationRegistry.php</code>提供系统信息，<code>RequestRegistry.php</code>提供请求信息</td></tr><tr><td>request</td><td>封装的HTTP请求</td></tr><tr><td>view</td><td>视图层文件</td></tr></tbody></table><h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><ol><li><p>从GitHub上clone本项目的代码到本地</p></li><li><p>运行<code>composer install</code></p></li><li><p>将代码部署到本地Web服务器，把<code>simpleWebFrame\public</code>设置为<code>DocumentRoot</code>。可以使用PHP内置的Web服务器快速部署验证：进入到目录<code>simpleWebFrame\public</code>，运行命令<code>php -S localhost:8000</code>，启动成功之后，打开浏览器输入网址：<code>localhost:8000</code>即可看到欢迎页面！</p></li></ol><p><img src="http://upload-images.jianshu.io/upload_images/2609728-3280509eb4b75c75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="welcome.png"></p><ol start="4"><li>如果需要写新的<code>Controller</code>，在<code>controller</code>文件夹创建命名为<code>xxxController.php</code>的类即可</li></ol><h2 id="访问方法"><a href="#访问方法" class="headerlink" title="访问方法"></a>访问方法</h2><p>如果在在<code>controller</code>文件夹创建命名为<code>InfoController.php</code>的类，同时在类中创建了<code>info()</code>方法，那么通过URL：<code>localhost:8000/Info/info</code>就能访问该方法 </p><h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>目前还没有视图解析器…</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;simpleWebFrame&quot;&gt;&lt;a href=&quot;#simpleWebFrame&quot; class=&quot;headerlink&quot; title=&quot;simpleWebFrame&quot;&gt;&lt;/a&gt;simpleWebFrame&lt;/h1&gt;&lt;p&gt;本框架是各种开发模式的基础上实现了单入口的w
+      
+    
+    </summary>
+    
+    
+      <category term="设计模式" scheme="http://yoursite.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>从SVN迁移代码到Git实践总结</title>
+    <link href="http://yoursite.com/2018/05/09/%E4%BB%8ESVN%E8%BF%81%E7%A7%BB%E4%BB%A3%E7%A0%81%E5%88%B0Git%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/"/>
+    <id>http://yoursite.com/2018/05/09/从SVN迁移代码到Git实践总结/</id>
+    <published>2018-05-09T12:13:18.000Z</published>
+    <updated>2018-05-09T12:23:31.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在Git流行起来之前，SVN是一个比较火爆的集中式的版本控制工具。但是Git作为分布式的版本控制工具，它在管理、使用等方面都比SVN要好，越来越多的公司、开发人员开始使用Git来替代SVN。这就涉及到历史代码迁移问题。当然最原始的方法就是把代码手动下载下来，然后手动创建Git仓库，再把代码push上去。这样做不仅耗费时间而且对于一些有用的信息如：原先SVN中的commit纪录等就没有了。今天借着迁移部门之前系统代码的机会，对整个过程进行总结。</p><h2 id="需要了解的背景知识"><a href="#需要了解的背景知识" class="headerlink" title="需要了解的背景知识"></a>需要了解的背景知识</h2><p>由于之前一直使用的是Git，没有接触过SVN，所以对于SVN并不是很了解，尤其是一些基础的术语的了解。也正是因为这个原因让我在往Git上迁移代码的时候遇到了一些麻烦，甚至一度卡在那里，不知道该怎么办了。</p><ul><li><p>下面简单介绍一下SVN以及一些基础的术语：</p><p>SVN的基本工作原理是在一台服务器上建立一个代码仓库，在这个仓库里面可以存放不同项目的源代码，每个用户、开发人员在使用代码仓库之前需要先把代码仓库里面的代码下载到本地（Checkout），然后用户可以在本地对代码进行修改，最后用svn命令进行提交（Commit）。整个流程跟Git的使用相差不多，只是使用的命令不同。其中刚刚介绍的创建代码仓库的服务器称为SVN服务器，用户、开发人员使用SVN客户端与SVN服务器进行交互。</p><ul><li>SVN服务器：一般分为两大种类，一类是独立的服务器，它使用SVN协议，另一类的是借助Apache服务器来实现的，它使用HTTP协议</li><li>SVN客户端：一般分为命令行和图形化工具两大类，常用的图形化工具有TortoiseSVN</li></ul></li><li><p>SVN基本命令：</p><ul><li><p>服务器端（管理员使用的）：svnadmin、 svnserve</p></li><li><p>客户端（开发人员使用的）：svn</p></li></ul></li><li><p>SVN目录</p><ul><li><p>/trunk：开发主线，相当于Git中的Master分支。</p></li><li><p>/branches：支线副本，相当于Git中的其余分支。</p></li><li><p>/tags：标签，与Git中的标签一样。</p></li></ul><p>一般的所有的开发工作都是基于trunk进行的，当一个版本开发完成，或者开发到一定段落（开发、测试、文档、制作安装程序、打包等结束后），代码基本上就处于一个稳定的状态，这是就会将代码打上tag，当下一个版本需要进行开发的时候，还会在trunk进行开发。但是此时如果发现了上一个已发行版本（Released Version）有一些bug，或者一些很急迫的功能要求，而正在开发的版本（Developing Version）无法满足时间要求，这时候就需要在上一个版本上进行修改了。解决方法是基于发行版对应的tag，做相应的分支（branch）进行开发。</p></li></ul><h2 id="从SVN到Git"><a href="#从SVN到Git" class="headerlink" title="从SVN到Git"></a>从SVN到Git</h2><p>首先需要在本地安装SVN客户端，这里由于Mac本身就支持SVN（可以在命令行下使用”svn —version”进行检测），所以我使用的是命令行的形式。若是在Windows环境下也可以下载命令行或者图形化的客户端。</p><ol><li>创建一个文件夹，使用checkout命令，从SVN服务器下载代码到本地<br><img src="http://upload-images.jianshu.io/upload_images/2609728-08797ff172081d55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></li><li>使用命令获取SVN用户信息，然后创建映射文件将SVN用户与Git用户进行映射</li></ol><p><img src="http://upload-images.jianshu.io/upload_images/2609728-a208833f079cc7af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"><br><img src="http://upload-images.jianshu.io/upload_images/2609728-4fe4f19a7984cfa0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p><p>将这个SVN用户与Git用户进行映射文件保存为txt格式，命名为authors.txt</p><p>3.使用git svn clone 命令从SVN服务器取回代码，并在本地创建Git仓库，同时使用之前创建的用户映射文件</p><p><img src="http://upload-images.jianshu.io/upload_images/2609728-e0a3fa6c64b3e42b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p><p> 这里使用git svn clone的语法为：</p><ul><li>如果SVN仓库为不标准的仓库（没有trunk、branches、tags)使用：<br><code>git svn clone --trunk=/trunk --branches=/branches --branches=/bugfixes --tags=/tags --authors-file=authors.txt &lt;svn-repo&gt;/&lt;project&gt; &lt;git-repo-name&gt;</code></li><li>如果SVN为标准仓库：<br><code>git svn clone --stdlayout --authors-file=authors.txt https://svn.atlassian.com/Confluence ConfluenceAsGit</code></li></ul><p>4.将通过<code>git svn clone</code>获得仓库，使用<code>git clone</code>当前目录 目的目录**”  命令克隆到本地其他地方，使用<code>git remote rm origin</code>去除仓库的上游</p><p>5.使用命令<code>git remote add origin xxxxx(git仓库)</code>将这个远程仓库添加到本地仓库的上游</p><p>6.使用命令<code>git push origin master</code>提交代码</p><p>至此大功告成，而且转换的Git仓库还保留着原先SVN中开发人员的提交纪录。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;在Git流行起来之前，SVN是一个比较火爆的集中式的版本控制工具。但是Git作为分布式的版本控制工具，它在管理、使用等方面都比SVN要好，越
+      
+    
+    </summary>
+    
+    
+      <category term="git" scheme="http://yoursite.com/tags/git/"/>
+    
+      <category term="svn" scheme="http://yoursite.com/tags/svn/"/>
+    
+  </entry>
+  
+  <entry>
     <title>测试</title>
     <link href="http://yoursite.com/2018/05/08/Test/"/>
     <id>http://yoursite.com/2018/05/08/Test/</id>
     <published>2018-05-08T04:57:23.000Z</published>
-    <updated>2018-05-08T16:55:09.000Z</updated>
+    <updated>2018-05-09T12:11:15.000Z</updated>
     
     <content type="html"><![CDATA[<p><img src="https://upload.wikimedia.org/wikipedia/zh/6/60/%E5%BE%A1%E5%9D%82%E7%BE%8E%E7%90%B4.png"></p>]]></content>
     

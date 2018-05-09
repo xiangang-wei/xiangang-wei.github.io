@@ -102,17 +102,23 @@
 
 
 
-  <meta name="keywords" content="test">
+  <meta name="description" content="一. 背景作为程序员，像GitHub这种好工具是必须得十分了解的，但是有时GitHub并不能满足我们所有的需求，就如作者所在的公司，我们的代码都是商业性的产品，不可能放到GitHub的开放仓库中的，而申请GitHub私人仓库需要钱。这就陷入了尴尬的局面，那有没有一种既能具有GitHub一样的功能，又能保护隐私免费的管理工具呢？答案是肯定的，感谢程序员伟大的开源精神，我们有了GitLab!!!今天笔">
+<meta name="keywords" content="docker,gitlab">
 <meta property="og:type" content="article">
-<meta property="og:title" content="测试">
-<meta property="og:url" content="http://yoursite.com/2018/05/08/Test/index.html">
+<meta property="og:title" content="使用docker搭建gitlab初体验+数据备份">
+<meta property="og:url" content="http://yoursite.com/2018/05/09/使用docker搭建gitlab初体验-数据备份/index.html">
 <meta property="og:site_name" content="科学的超强电磁炮">
+<meta property="og:description" content="一. 背景作为程序员，像GitHub这种好工具是必须得十分了解的，但是有时GitHub并不能满足我们所有的需求，就如作者所在的公司，我们的代码都是商业性的产品，不可能放到GitHub的开放仓库中的，而申请GitHub私人仓库需要钱。这就陷入了尴尬的局面，那有没有一种既能具有GitHub一样的功能，又能保护隐私免费的管理工具呢？答案是肯定的，感谢程序员伟大的开源精神，我们有了GitLab!!!今天笔">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/zh/6/60/%E5%BE%A1%E5%9D%82%E7%BE%8E%E7%90%B4.png">
-<meta property="og:updated_time" content="2018-05-09T12:11:15.000Z">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-190543bc68f94afe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-db5b5b3d456f922b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-5bd5429d6c93a5e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2609728-a1ef54d062715570.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-05-09T12:28:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="测试">
-<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/zh/6/60/%E5%BE%A1%E5%9D%82%E7%BE%8E%E7%90%B4.png">
+<meta name="twitter:title" content="使用docker搭建gitlab初体验+数据备份">
+<meta name="twitter:description" content="一. 背景作为程序员，像GitHub这种好工具是必须得十分了解的，但是有时GitHub并不能满足我们所有的需求，就如作者所在的公司，我们的代码都是商业性的产品，不可能放到GitHub的开放仓库中的，而申请GitHub私人仓库需要钱。这就陷入了尴尬的局面，那有没有一种既能具有GitHub一样的功能，又能保护隐私免费的管理工具呢？答案是肯定的，感谢程序员伟大的开源精神，我们有了GitLab!!!今天笔">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2609728-190543bc68f94afe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -121,7 +127,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/08/Test/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/09/使用docker搭建gitlab初体验-数据备份/"/>
 
 
 
@@ -131,7 +137,7 @@
   };
 </script>
 
-  <title>测试 | 科学的超强电磁炮</title>
+  <title>使用docker搭建gitlab初体验+数据备份 | 科学的超强电磁炮</title>
   
 
 
@@ -295,7 +301,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/08/Test/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/使用docker搭建gitlab初体验-数据备份/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xiangang">
@@ -312,7 +318,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">测试
+          <h1 class="post-title" itemprop="name headline">使用docker搭建gitlab初体验+数据备份
               
             
           </h1>
@@ -337,46 +343,16 @@
                 
               
 
-              <time title="创建时间：2018-05-08 12:57:23" itemprop="dateCreated datePublished" datetime="2018-05-08T12:57:23+08:00">2018-05-08</time>
+              <time title="创建时间：2018-05-09 20:26:13 / 修改时间：20:28:38" itemprop="dateCreated datePublished" datetime="2018-05-09T20:26:13+08:00">2018-05-09</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-05-09 20:11:15" itemprop="dateModified" datetime="2018-05-09T20:11:15+08:00">2018-05-09</time>
               
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Test/" itemprop="url" rel="index"><span itemprop="name">Test</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -386,8 +362,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/08/Test/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/05/08/Test/" itemprop="commentCount"></span>
+                <a href="/2018/05/09/使用docker搭建gitlab初体验-数据备份/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/05/09/使用docker搭建gitlab初体验-数据备份/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -395,7 +371,7 @@
 
           
           
-             <span id="/2018/05/08/Test/" class="leancloud_visitors" data-flag-title="测试">
+             <span id="/2018/05/09/使用docker搭建gitlab初体验-数据备份/" class="leancloud_visitors" data-flag-title="使用docker搭建gitlab初体验+数据备份">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -434,7 +410,28 @@
       
 
       
-        <p><img src="https://upload.wikimedia.org/wikipedia/zh/6/60/%E5%BE%A1%E5%9D%82%E7%BE%8E%E7%90%B4.png"></p>
+        <h1 id="一-背景"><a href="#一-背景" class="headerlink" title="一. 背景"></a>一. 背景</h1><p>作为程序员，像GitHub这种好工具是必须得十分了解的，但是有时GitHub并不能满足我们所有的需求，就如作者所在的公司，我们的代码都是商业性的产品，不可能放到GitHub的开放仓库中的，而申请GitHub私人仓库需要钱。这就陷入了尴尬的局面，那有没有一种既能具有GitHub一样的功能，又能保护隐私免费的管理工具呢？答案是肯定的，感谢程序员伟大的开源精神，我们有了GitLab!!!今天笔者在这里就跟大家分享一下自己使用docker搭建GitLab的过程吧，这其中踩了一些坑，希望看过这篇文章的人不用在踩我踩过的坑了！</p>
+<h1 id="二-环境介绍"><a href="#二-环境介绍" class="headerlink" title="二. 环境介绍"></a>二. 环境介绍</h1><p><strong>服务器信息：</strong><br>CPU : 2<br>DISK : 30G<br>RAM : 4G<br>OS : Linux centos7-0 3.10.0-229.el7.x86_64<br><em>这里笔者使用的是自己公司的服务器，也可以使用虚拟机进行搭建</em></p>
+<h1 id="三-搭建过程"><a href="#三-搭建过程" class="headerlink" title="三. 搭建过程"></a>三. 搭建过程</h1><p><strong>1. 安装docker</strong><br>因为我们是使用docker搭建的，所以需要先安装docker，docker支持不同的OS，具体的安装信息这里不做详细介绍，可以自己的操作系统，参考官方的安装指南进行安装。<a href="http://www.docker.io" target="_blank" rel="noopener">http://www.docker.io</a><br><strong>2. 安装GitLab及相关组件</strong><br>GitLab需要用到数据库来存储相关数据，所以需要在安装GitLab的同时安装数据库，这里使用的是postgresql和redis。我在查找相关的镜像，之后发现有很多现成的镜像，这里我使用的sameersbn镜像。但是有一点我认为不是很好的是：这个镜像没有把redis、postgresql集成到gitlab的容器里面，需要先单独pull这两个镜像run一下，然后再pull gitlab的镜像进行安装。</p>
+<p><strong>使用如下命令分别拉取最新的镜像：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull sameersbn/redis</span><br><span class="line">docker pull sameersbn/postgresql</span><br><span class="line">docker pull sameersbn/gitlab</span><br></pre></td></tr></table></figure></p>
+<p><strong>这里有第一个坑：因为我们默认都是从docker的官方仓库中拉去镜像，但是由于国内访问国外的网站有墙，而且速度也是十分的慢，所以需要代理。这里推荐Daocloud加速器 <a href="https://www.daocloud.io/" target="_blank" rel="noopener">https://www.daocloud.io/</a> 免费使用，但是需要先注册，登录成功后，找到加速器执行相关命令即可。笔者亲测速度明显快很多！</strong></p>
+<p><strong>使用如下命令运行postgresql镜像：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run --name postgresql -d \  </span><br><span class="line">-e &apos;DB_NAME=gitlabhq_production&apos; \  </span><br><span class="line">-e &apos;DB_USER=gitlab&apos; \</span><br><span class="line">-e &apos;DB_PASS=password&apos; \  </span><br><span class="line">-e &apos;DB_EXTENSION=pg_trgm&apos; \  </span><br><span class="line">-v /home/root/opt/postgresql/data:/var/lib/postgresql \  </span><br><span class="line">sameersbn/postgresql</span><br></pre></td></tr></table></figure></p>
+<p><strong>这里需要解释的是：</strong><br>(1). 以上是一条命令，反斜杠是为了在命令内换行方便阅读，如果不喜欢，也可以写在一行。<br>(2). <code>-e</code>后面跟的都是容器的环境参数，都是在制作镜像的时候指定好的，所以不要去改动。<br>(3). <code>-v</code>后面是添加数据卷，这样在容器退出的时候数据就不会丢失，其中             <code>/home/root/opt/postgresql/data</code>是作者自己创建的文件夹，读者可以自己自定义，后面的部分是容器内的文件路径，需要保持不变。<br>(4). 命令执行成功之后会在控制台显示一串容器的编号，可以使用命令<code>docker ps</code>查看刚刚启动的容器。</p>
+<p><strong>使用如下命令运行redis镜像：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run --name redis -d \  </span><br><span class="line">-v /home/root/opt/redis/data:/var/lib/redis \  </span><br><span class="line">sameersbn/redis</span><br></pre></td></tr></table></figure></p>
+<p>这里跟启动postgresql一样。</p>
+<p><strong>使用如下命令运行GitLab镜像：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">docker run --name gitlab -d \</span><br><span class="line">--link postgresql:postgresql --link redis:redisio \</span><br><span class="line">-p 10022:22 -p 10080:80 \</span><br><span class="line">-e &apos;GITLAB_PORT=10080&apos; \</span><br><span class="line">-e &apos;GITLAB_SSH_PORT=10022&apos; \</span><br><span class="line">-e &apos;GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alpha-numeric-string&apos;\</span><br><span class="line">-e &apos;GITLAB_SECRETS_SECRET_KEY_BASE=long-and-random-alpha-numeric-string&apos; \</span><br><span class="line">-e &apos;GITLAB_SECRETS_OTP_KEY_BASE=long-and-random-alpha-numeric-string&apos;\</span><br><span class="line">-e &apos;GITLAB_HOST=服务器地址&apos; \</span><br><span class="line">-e &apos;GITLAB_EMAIL=邮箱地址&apos; \</span><br><span class="line">-e &apos;SMTP_ENABLED=true&apos; \</span><br><span class="line">-e &apos;SMTP_DOMAIN=www.sina.com&apos; \</span><br><span class="line">-e &apos;SMTP_HOST=smtp.sina.com&apos; \ </span><br><span class="line">-e &apos;SMTP_STARTTLS=false&apos;  \</span><br><span class="line">-e &apos;SMTP_USER=邮箱地址&apos; \</span><br><span class="line">-e &apos;SMTP_PASS=邮箱密码&apos; \</span><br><span class="line">-e &apos;SMTP_AUTHENTICATION=login&apos; \</span><br><span class="line">-e &apos;GITLAB_BACKUP_SCHEDULE=daily&apos; \</span><br><span class="line">-e &apos;GITLAB_BACKUP_TIME=10:30&apos; \</span><br><span class="line">-v /home/root/opt/gitlab/data:/home/git/data \</span><br><span class="line">sameersbn/gitlab</span><br></pre></td></tr></table></figure></p>
+<p><strong>这里需要解释的是：</strong><br>(1). 网上又很多教程讲关于使用docker安装GitLab，但是讲的不全面，至少我按照他们的方法安装时不能正常运行，这里是第三个坑：一定要加上如下环境参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-e &apos;GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alpha-numeric-string&apos;\</span><br><span class="line">-e &apos;GITLAB_SECRETS_SECRET_KEY_BASE=long-and-random-alpha-numeric-string&apos; \</span><br><span class="line">-e &apos;GITLAB_SECRETS_OTP_KEY_BASE=long-and-random-alpha-numeric-string&apos;\</span><br></pre></td></tr></table></figure></p>
+<p>有关于这三个环境参数的含义：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2609728-190543bc68f94afe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="官方的解释"><br>我个人的理解是用来进行加密的key。<br>(2). 上面有关<code>SMTP</code>的环境参数是配置邮箱的，需要填上对应的邮箱信息，我使用的是新浪邮箱，读者可以根据自己的邮箱进行填写。<br>(3). 使用GitLab需要两个端口，一个是web端口，一个是SSH端口用于push代码的所以一下代码进行端口映射和指定：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-p 10022:22 -p 10080:80 \</span><br><span class="line">-e &apos;GITLAB_PORT=10080&apos; \</span><br><span class="line">-e &apos;GITLAB_SSH_PORT=10022&apos; \</span><br></pre></td></tr></table></figure></p>
+<p>(4). GitLab有自带的备份，这里可以通过如下进行配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-e &apos;GITLAB_BACKUP_SCHEDULE=daily&apos; \</span><br><span class="line">-e &apos;GITLAB_BACKUP_TIME=10:30&apos; \</span><br></pre></td></tr></table></figure></p>
+<p>指定的是每天10:30进行备份。</p>
+<p>说到这里基本上GitLab就搭建好了，<strong>这里还有一个小坑就是：运行这些容器的时候可以把代码写进shell脚本中，然后通过脚本进行运行，不然直接在终端打的话很麻烦。</strong></p>
+<p>一下就是笔者安装完后的截图，直接访问：http://服务器地址:10080  即可，首次访问可能会出现错误页面，刷新几下页面就可以了然后在修改密码默认用户名：root  之后就可以正常使用。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2609728-db5b5b3d456f922b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="登录界面"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2609728-5bd5429d6c93a5e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="group"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2609728-a1ef54d062715570.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="admin area"></p>
+<h1 id="四-备份"><a href="#四-备份" class="headerlink" title="四. 备份"></a>四. 备份</h1><p>我们可以使用GitLab自带的备份功能，在启动容器的时候就进行设置，然后再使用GitLab的  <code>app:rake gitlab:backup:restore</code>命令进行恢复，这里网上的教程都有说明可以参考以下网站：<br>sameersbn的GitHub wiki：<br><a href="https://github.com/sameersbn/docker-gitlab#automated-backups" target="_blank" rel="noopener">https://github.com/sameersbn/docker-gitlab#automated-backups</a><br>这个是官方的所以比较全面，里面还有关于各种环境参数的介绍。</p>
+<p><strong>这里作者使用的是如下的备份方法：</strong><br>因为我们在运行postgresql、redis和GitLab的时候都使用了本地的文件夹进行了数据的持久化，而且我们实际需要备份的数据都在本地了，那么其实就可以直接使用<code>rsync</code>命令备份本地的这些卷（刚刚的文件夹）即可，无需再去深入到GitLab内部。如果搭建的GitLab崩溃了，或者服务器崩溃了，直接再使用docker再搭一个，在把刚刚的卷跟对应的postgresql、redis和GitLab内的数据文件夹进行映射即可。这是也不需要修改之前的启动命令，十分的方便而且作者自己测试过，发现能够达到要求，原先的仓库、用户的SSH信息等都在。</p>
 
       
     </div>
@@ -455,7 +452,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/test/" rel="tag"># test</a>
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+            <a href="/tags/gitlab/" rel="tag"># gitlab</a>
           
         </div>
       
@@ -468,8 +467,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/08/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2018/05/09/简易的PHP-Web-API开发框架-simpleWebFrame/" rel="next" title="简易的PHP Web API开发框架-simpleWebFrame">
+                <i class="fa fa-chevron-left"></i> 简易的PHP Web API开发框架-simpleWebFrame
               </a>
             
           </div>
@@ -477,10 +476,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/09/从SVN迁移代码到Git实践总结/" rel="prev" title="从SVN迁移代码到Git实践总结">
-                从SVN迁移代码到Git实践总结 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -532,8 +527,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -655,6 +659,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-背景"><span class="nav-number">1.</span> <span class="nav-text">一. 背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-环境介绍"><span class="nav-number">2.</span> <span class="nav-text">二. 环境介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-搭建过程"><span class="nav-number">3.</span> <span class="nav-text">三. 搭建过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-备份"><span class="nav-number">4.</span> <span class="nav-text">四. 备份</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
