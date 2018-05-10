@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+  <url>
+    <loc>https://xiangang-wei.github.io/2018/05/09/%E4%BD%BF%E7%94%A8IP%E5%9C%B0%E5%9D%80%E9%80%9A%E4%BF%A1%E6%97%B6%E6%95%B0%E6%8D%AE%E8%BD%AC%E5%8F%91%E7%9A%84%E6%B5%81%E7%A8%8B/</loc>
+    <lastmod>2018-05-09T15:05:20.000Z</lastmod>
+    <data>
+        <display>
+        <title>使用IP地址通信时数据转发的流程</title>
+        <pubTime>2018-05-09T14:58:22.000Z</pubTime>
+        
+        <tag>HTTP</tag>
+         
+        <tag>网络</tag>
+         
+        <tag>IP</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://xiangang-wei.github.io/2018/05/09/%E4%BD%BF%E7%94%A8JNI%EF%BC%88Java-Native-Interface%EF%BC%89%E7%9A%84%E6%80%BB%E7%BB%93/</loc>
+    <lastmod>2018-05-09T15:05:19.000Z</lastmod>
+    <data>
+        <display>
+        <title>使用JNI（Java Native Interface）的总结</title>
+        <pubTime>2018-05-09T15:00:27.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+        <tag>JNI</tag>
+         
+        <tag>C</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://xiangang-wei.github.io/2018/05/09/%E9%9C%80%E8%A6%81%E6%90%9E%E6%B8%85%E6%A5%9A%E7%9A%84%E5%85%B3%E4%BA%8E%E6%8A%93%E5%8C%85%E7%9A%84%E9%97%AE%E9%A2%98/</loc>
+    <lastmod>2018-05-09T14:58:54.000Z</lastmod>
+    <data>
+        <display>
+        <title>需要搞清楚的关于抓包的问题</title>
+        <pubTime>2018-05-09T14:54:02.000Z</pubTime>
+        
+        <tag>HTTP</tag>
+         
+        <tag>网络</tag>
+         
+        <tag>抓包</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://xiangang-wei.github.io/2018/05/09/%E5%AF%B9%E4%BA%8EJava-Web%E4%B8%AD%E7%9A%84Filter%E5%92%8CInterceptor%E7%9A%84%E7%90%86%E8%A7%A3/</loc>
+    <lastmod>2018-05-09T14:53:10.000Z</lastmod>
+    <data>
+        <display>
+        <title>对于Java Web中的Filter和Interceptor的理解</title>
+        <pubTime>2018-05-09T14:48:08.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+        <tag>Spring</tag>
+         
+        <tag>Spring MVC</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://xiangang-wei.github.io/2018/05/09/Spring-MVC-Spring%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8log4j%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/</loc>
+    <lastmod>2018-05-09T14:47:36.000Z</lastmod>
+    <data>
+        <display>
+        <title>Spring MVC+Spring框架使用log4j的学习总结</title>
+        <pubTime>2018-05-09T14:45:19.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+        <tag>Spring</tag>
+         
+        <tag>Spring MVC</tag>
+         
+        <tag>log4j</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://xiangang-wei.github.io/2018/05/09/%E7%AE%80%E6%98%93%E7%9A%84PHP-Web-API%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6-simpleWebFrame/</loc>
+    <lastmod>2018-05-09T14:44:34.000Z</lastmod>
+    <data>
+        <display>
+        <title>简易的PHP Web API开发框架-simpleWebFrame</title>
+        <pubTime>2018-05-09T12:19:01.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+        <tag>PHP</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://xiangang-wei.github.io/2018/05/09/%E4%BB%8ESVN%E8%BF%81%E7%A7%BB%E4%BB%A3%E7%A0%81%E5%88%B0Git%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/</loc>
+    <lastmod>2018-05-09T14:44:32.000Z</lastmod>
+    <data>
+        <display>
+        <title>从SVN迁移代码到Git实践总结</title>
+        <pubTime>2018-05-09T12:13:18.000Z</pubTime>
+        
+        <tag>git</tag>
+         
+        <tag>svn</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://xiangang-wei.github.io/2018/05/09/%E4%BD%BF%E7%94%A8docker%E6%90%AD%E5%BB%BAgitlab%E5%88%9D%E4%BD%93%E9%AA%8C-%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD/</loc>
+    <lastmod>2018-05-09T14:44:29.000Z</lastmod>
+    <data>
+        <display>
+        <title>使用docker搭建gitlab初体验+数据备份</title>
+        <pubTime>2018-05-09T12:26:13.000Z</pubTime>
+        
+        <tag>docker</tag>
+         
+        <tag>gitlab</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://xiangang-wei.github.io/2018/05/09/Spring-MVC-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8log4j%E7%BB%9F%E4%B8%80%E8%AE%B0%E5%BD%95%E5%BC%82%E5%B8%B8%E5%88%B0%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6/</loc>
+    <lastmod>2018-05-09T14:44:25.000Z</lastmod>
+    <data>
+        <display>
+        <title>Spring MVC 项目中使用log4j统一记录异常到日志文件</title>
+        <pubTime>2018-05-09T14:41:58.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+        <tag>Spring</tag>
+         
+        <tag>Spring MVC</tag>
+         
+        <tag>log</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://xiangang-wei.github.io/2018/05/08/hello-world/</loc>
+    <lastmod>2018-05-09T05:08:21.000Z</lastmod>
+    <data>
+        <display>
+        <title>Hello World</title>
+        <pubTime>2018-05-08T04:48:42.000Z</pubTime>
+        
+        <tag>test</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+</urlset>
